@@ -1,23 +1,23 @@
-import type React from 'react';
-import { Header } from '@/components/layout/header';
-import { Sidebar } from '@/components/layout/sidebar';
-import { Footer } from '@/components/layout/footer';
+import type React from "react"
+import { Header } from "@/components/layout/header"
+import { Sidebar } from "@/components/layout/sidebar"
+import { Footer } from "@/components/layout/footer"
 
 interface DashboardLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/20">
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <main className="flex-1 overflow-y-auto">
-          <div className="p-6">{children}</div>
+          <div className="p-8 max-w-7xl mx-auto">{children}</div>
         </main>
       </div>
       <Footer />
     </div>
-  );
+  )
 }
