@@ -14,6 +14,7 @@
     "bootstrapping",
     "brazilian",
     "build",
+    "cmdk",
     "codigo",
     "comercial",
     "config",
@@ -35,6 +36,7 @@
     "funcionais",
     "funcional",
     "galpao",
+    "geist",
     "graceful",
     "hash",
     "healthcheck",
@@ -88,6 +90,7 @@
     "utils",
     "uuid",
     "valor",
+    "vaul",
     "venda",
     "vendas",
     "vitest",
@@ -117,13 +120,5 @@
   ],
   "flagWords": [],
   "allowCompoundWords": true,
-  "dictionaries": [
-    "en_US",
-    "pt_BR",
-    "typescript",
-    "node",
-    "npm",
-    "software-terms",
-    "companies"
-  ]
+  "dictionaries": ["en_US", "pt_BR", "typescript", "node", "npm", "software-terms", "companies"]
 }

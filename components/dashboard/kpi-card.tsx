@@ -1,21 +1,21 @@
-import { Card, CardContent } from "@/components/ui/card"
-import type { LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Card, CardContent } from '@/components/ui/card';
+import type { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface KPICardProps {
-  title: string
-  value: string | number
-  icon: LucideIcon
+  title: string;
+  value: string | number;
+  icon: LucideIcon;
   trend?: {
-    value: number
-    isPositive: boolean
-  }
-  className?: string
+    value: number;
+    isPositive: boolean;
+  };
+  className?: string;
 }
 
 export function KPICard({ title, value, icon: Icon, trend, className }: KPICardProps) {
   return (
-    <Card className={cn("hover:shadow-lg transition-shadow duration-200", className)}>
+    <Card className={cn('hover:shadow-lg transition-shadow duration-200', className)}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
@@ -24,12 +24,12 @@ export function KPICard({ title, value, icon: Icon, trend, className }: KPICardP
             {trend && (
               <div
                 className={cn(
-                  "flex items-center text-xs font-medium",
-                  trend.isPositive ? "text-green-600" : "text-red-600",
+                  'flex items-center text-xs font-medium',
+                  trend.isPositive ? 'text-green-600' : 'text-red-600'
                 )}
               >
                 <span>
-                  {trend.isPositive ? "+" : ""}
+                  {trend.isPositive ? '+' : ''}
                   {trend.value}%
                 </span>
                 <span className="ml-1 text-muted-foreground">vs mês anterior</span>
@@ -42,5 +42,5 @@ export function KPICard({ title, value, icon: Icon, trend, className }: KPICardP
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

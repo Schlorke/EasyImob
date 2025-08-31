@@ -6,7 +6,7 @@ import { HealthResponse } from '@/types';
  * HealthController - System health check endpoints
  */
 export class HealthController {
-  constructor(private paymentsRepository: PaymentsRepository) {}
+  constructor(private _paymentsRepository: PaymentsRepository) {}
 
   /**
    * GET /health
@@ -15,7 +15,7 @@ export class HealthController {
   async getHealth(_req: Request, res: Response<HealthResponse>): Promise<void> {
     try {
       // Test database connectivity
-      const isDbHealthy = await this.paymentsRepository.healthCheck();
+      const isDbHealthy = await this._paymentsRepository.healthCheck();
 
       if (!isDbHealthy) {
         res.status(503).json({ status: 'ok' } as HealthResponse);

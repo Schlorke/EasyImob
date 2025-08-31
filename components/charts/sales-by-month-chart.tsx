@@ -1,28 +1,41 @@
-"use client"
+'use client';
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { useSalesByMonth } from "@/hooks/use-sales"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
+import { useSalesByMonth } from '@/hooks/use-sales';
 
 export function SalesByMonthChart() {
-  const { data, isLoading, error } = useSalesByMonth()
+  const { data, isLoading, error } = useSalesByMonth();
 
   if (isLoading) {
-    return <div className="h-80 bg-muted animate-pulse rounded" />
+    return <div className="h-80 bg-muted animate-pulse rounded" />;
   }
 
   if (error) {
-    return <div className="h-80 flex items-center justify-center text-muted-foreground">Erro ao carregar dados</div>
+    return (
+      <div className="h-80 flex items-center justify-center text-muted-foreground">
+        Erro ao carregar dados
+      </div>
+    );
   }
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
       minimumFractionDigits: 0,
-    }).format(value)
-  }
+    }).format(value);
+  };
 
-  const chartData = data?.series || []
+  const chartData = data?.series || [];
 
   return (
     <ResponsiveContainer width="100%" height={320}>
@@ -35,16 +48,21 @@ export function SalesByMonthChart() {
           tick={{ fontSize: 12 }}
           tickFormatter={formatCurrency}
         />
-        <YAxis yAxisId="right" orientation="right" className="text-xs fill-muted-foreground" tick={{ fontSize: 12 }} />
+        <YAxis
+          yAxisId="right"
+          orientation="right"
+          className="text-xs fill-muted-foreground"
+          tick={{ fontSize: 12 }}
+        />
         <Tooltip
           formatter={(value: number, name: string) => [
-            name === "total" ? formatCurrency(value) : value,
-            name === "total" ? "Valor" : "Quantidade",
+            name === 'total' ? formatCurrency(value) : value,
+            name === 'total' ? 'Valor' : 'Quantidade',
           ]}
           contentStyle={{
-            backgroundColor: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "6px",
+            backgroundColor: 'hsl(var(--card))',
+            border: '1px solid hsl(var(--border))',
+            borderRadius: '6px',
           }}
         />
         <Legend />
@@ -54,7 +72,7 @@ export function SalesByMonthChart() {
           dataKey="total"
           stroke="hsl(var(--primary))"
           strokeWidth={3}
-          dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+          dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
           name="Valor (R$)"
         />
         <Line
@@ -63,10 +81,10 @@ export function SalesByMonthChart() {
           dataKey="quantidade"
           stroke="hsl(var(--chart-2))"
           strokeWidth={3}
-          dot={{ fill: "hsl(var(--chart-2))", strokeWidth: 2, r: 4 }}
+          dot={{ fill: 'hsl(var(--chart-2))', strokeWidth: 2, r: 4 }}
           name="Quantidade"
         />
       </LineChart>
     </ResponsiveContainer>
-  )
+  );
 }

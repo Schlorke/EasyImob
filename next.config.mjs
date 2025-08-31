@@ -9,6 +9,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    esmExternals: true,
+  },
+  transpilePackages: ["lucide-react", "recharts"],
 }
 
 export default nextConfig

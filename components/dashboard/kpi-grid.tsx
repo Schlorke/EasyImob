@@ -1,30 +1,33 @@
-"use client"
+'use client';
 
-import { Building, DollarSign, TrendingUp, Star } from "lucide-react"
-import { KPICard } from "./kpi-card"
-import { usePaymentsByProperty } from "@/hooks/use-payments"
-import { useSalesByMonth } from "@/hooks/use-sales"
+import { Building, DollarSign, TrendingUp, Star } from 'lucide-react';
+import { KPICard } from './kpi-card';
+import { usePaymentsByProperty } from '@/hooks/use-payments';
+import { useSalesByMonth } from '@/hooks/use-sales';
 
 export function KPIGrid() {
-  const { data: paymentsByProperty, isLoading: paymentsLoading } = usePaymentsByProperty()
-  const { data: salesByMonth, isLoading: salesLoading } = useSalesByMonth()
+  const { data: paymentsByProperty, isLoading: paymentsLoading } = usePaymentsByProperty();
+  const { data: salesByMonth, isLoading: salesLoading } = useSalesByMonth();
 
   // Calculate KPIs from data
-  const totalProperties = paymentsByProperty?.length || 0
-  const totalSales = paymentsByProperty?.reduce((sum, item) => sum + item.total_pagamentos, 0) || 0
-  const topProperty = paymentsByProperty?.[0]
+  const totalProperties = paymentsByProperty?.length || 0;
+  const totalSales = paymentsByProperty?.reduce((sum, item) => sum + item.total_pagamentos, 0) || 0;
+  const topProperty = paymentsByProperty?.[0];
 
   // Current month sales (last month in the series)
-  const currentMonthSales = salesByMonth?.series?.[salesByMonth.series.length - 1]?.total || 0
-  const previousMonthSales = salesByMonth?.series?.[salesByMonth.series.length - 2]?.total || 0
-  const salesTrend = previousMonthSales > 0 ? ((currentMonthSales - previousMonthSales) / previousMonthSales) * 100 : 0
+  const currentMonthSales = salesByMonth?.series?.[salesByMonth.series.length - 1]?.total || 0;
+  const previousMonthSales = salesByMonth?.series?.[salesByMonth.series.length - 2]?.total || 0;
+  const salesTrend =
+    previousMonthSales > 0
+      ? ((currentMonthSales - previousMonthSales) / previousMonthSales) * 100
+      : 0;
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value)
-  }
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+  };
 
   if (paymentsLoading || salesLoading) {
     return (
@@ -33,7 +36,7 @@ export function KPIGrid() {
           <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
         ))}
       </div>
-    )
+    );
   }
 
   return (
@@ -49,7 +52,11 @@ export function KPIGrid() {
           isPositive: salesTrend >= 0,
         }}
       />
-      <KPICard title="Propriedade Top" value={topProperty ? `${topProperty.codigo_imovel}` : "N/A"} icon={Star} />
+      <KPICard
+        title="Propriedade Top"
+        value={topProperty ? `${topProperty.codigo_imovel}` : 'N/A'}
+        icon={Star}
+      />
     </div>
-  )
+  );
 }

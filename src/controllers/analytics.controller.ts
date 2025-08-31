@@ -14,8 +14,8 @@ import {
  */
 export class AnalyticsController {
   constructor(
-    private paymentsRepository: PaymentsRepository,
-    private analyticsService: AnalyticsService
+    private _paymentsRepository: PaymentsRepository,
+    private _analyticsService: AnalyticsService
   ) {}
 
   /**
@@ -24,7 +24,7 @@ export class AnalyticsController {
    */
   async getRawPayments(_req: Request, res: Response<PaymentData[]>): Promise<void> {
     try {
-      const data = await this.paymentsRepository.getAllPaymentsData();
+      const data = await this._paymentsRepository.getAllPaymentsData();
       res.status(200).json(data);
     } catch (error) {
       console.error('❌ Error in getRawPayments:', error);
@@ -43,10 +43,10 @@ export class AnalyticsController {
   ): Promise<void> {
     try {
       // Fetch raw data from single JOIN query
-      const rawData = await this.paymentsRepository.getAllPaymentsData();
+      const rawData = await this._paymentsRepository.getAllPaymentsData();
 
       // Process in memory using functional programming
-      const result = this.analyticsService.calculatePaymentsByProperty(rawData);
+      const result = this._analyticsService.calculatePaymentsByProperty(rawData);
 
       res.status(200).json(result);
     } catch (error) {
@@ -63,10 +63,10 @@ export class AnalyticsController {
   async getSalesByMonth(_req: Request, res: Response<SalesByMonthResponse>): Promise<void> {
     try {
       // Fetch raw data from single JOIN query
-      const rawData = await this.paymentsRepository.getAllPaymentsData();
+      const rawData = await this._paymentsRepository.getAllPaymentsData();
 
       // Process in memory using functional programming
-      const result = this.analyticsService.calculateSalesByMonth(rawData);
+      const result = this._analyticsService.calculateSalesByMonth(rawData);
 
       res.status(200).json(result);
     } catch (error) {
@@ -83,10 +83,10 @@ export class AnalyticsController {
   async getSalesShareByType(_req: Request, res: Response<SalesShareByTypeResponse>): Promise<void> {
     try {
       // Fetch raw data from single JOIN query
-      const rawData = await this.paymentsRepository.getAllPaymentsData();
+      const rawData = await this._paymentsRepository.getAllPaymentsData();
 
       // Process in memory using functional programming
-      const result = this.analyticsService.calculateSalesShareByType(rawData);
+      const result = this._analyticsService.calculateSalesShareByType(rawData);
 
       res.status(200).json(result);
     } catch (error) {

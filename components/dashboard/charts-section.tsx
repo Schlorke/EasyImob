@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { PaymentsByPropertyChart } from "@/components/charts/payments-by-property-chart"
-import { SalesByMonthChart } from "@/components/charts/sales-by-month-chart"
-import { SalesShareChart } from "@/components/charts/sales-share-chart"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PaymentsByPropertyChart } from '@/components/charts/payments-by-property-chart';
+import { SalesByMonthChart } from '@/components/charts/sales-by-month-chart';
+import { SalesShareChart } from '@/components/charts/sales-share-chart';
 
 export function ChartsSection() {
   return (
@@ -39,5 +39,5 @@ export function ChartsSection() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

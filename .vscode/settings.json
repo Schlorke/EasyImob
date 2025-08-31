@@ -92,15 +92,7 @@
     "yarn.lock"
   ],
   "cSpell.flagWords": [],
-  "cSpell.enableFiletypes": [
-    "typescript",
-    "javascript",
-    "json",
-    "markdown",
-    "sql",
-    "yaml",
-    "yml"
-  ],
+  "cSpell.enableFiletypes": ["typescript", "javascript", "json", "markdown", "sql", "yaml", "yml"],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"

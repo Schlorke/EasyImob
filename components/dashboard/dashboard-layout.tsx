@@ -1,10 +1,10 @@
-import type React from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Footer } from "@/components/layout/footer"
+import type React from 'react';
+import { Header } from '@/components/layout/header';
+import { Sidebar } from '@/components/layout/sidebar';
+import { Footer } from '@/components/layout/footer';
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -19,5 +19,5 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
       <Footer />
     </div>
-  )
+  );
 }

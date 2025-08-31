@@ -1,12 +1,12 @@
-import { Building, TrendingUp, FileText, Home } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Building, TrendingUp, FileText, Home } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: Home, current: true },
-  { name: "Imóveis", href: "/properties", icon: Building, current: false },
-  { name: "Vendas", href: "/sales", icon: TrendingUp, current: false },
-  { name: "Relatórios", href: "/reports", icon: FileText, current: false },
-]
+  { name: 'Dashboard', href: '/', icon: Home, current: true },
+  { name: 'Imóveis', href: '/properties', icon: Building, current: false },
+  { name: 'Vendas', href: '/sales', icon: TrendingUp, current: false },
+  { name: 'Relatórios', href: '/reports', icon: FileText, current: false },
+];
 
 export function Sidebar() {
   return (
@@ -19,15 +19,15 @@ export function Sidebar() {
               href={item.href}
               className={cn(
                 item.current
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                "group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors",
+                  ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                  : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors'
               )}
             >
               <item.icon
                 className={cn(
-                  item.current ? "text-sidebar-accent-foreground" : "text-sidebar-foreground",
-                  "mr-3 flex-shrink-0 h-5 w-5",
+                  item.current ? 'text-sidebar-accent-foreground' : 'text-sidebar-foreground',
+                  'mr-3 flex-shrink-0 h-5 w-5'
                 )}
                 aria-hidden="true"
               />
@@ -37,5 +37,5 @@ export function Sidebar() {
         </nav>
       </div>
     </div>
-  )
+  );
 }

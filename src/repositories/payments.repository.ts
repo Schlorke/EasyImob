@@ -33,7 +33,7 @@ export class PaymentsRepository {
       const [rows] = await pool.execute<RowDataPacket[]>(query);
 
       // Transform database rows to PaymentData type
-      return rows.map((row) => ({
+      return rows.map((row: RowDataPacket) => ({
         id_venda: row.id_venda as number,
         data_do_pagamento: this.formatDate(row.data_do_pagamento as Date),
         valor_do_pagamento: Number(row.valor_do_pagamento),

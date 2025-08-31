@@ -42,7 +42,7 @@ export class AnalyticsService {
 
     // Step 2: Convert to array and sort by total descending
     return Object.values(groupedByProperty)
-      .map((item) => ({
+      .map((item: PaymentsByPropertyItem) => ({
         ...item,
         total_pagamentos: this.roundToTwoDecimals(item.total_pagamentos),
       }))
@@ -78,7 +78,7 @@ export class AnalyticsService {
 
     // Step 2: Convert to array, round values, and sort by date ascending
     const series = Object.values(groupedByMonth)
-      .map((item) => ({
+      .map((item: SalesByMonthItem) => ({
         ...item,
         total: this.roundToTwoDecimals(item.total),
       }))
@@ -108,7 +108,7 @@ export class AnalyticsService {
     const share: SalesShareByTypeItem[] = Object.entries(countByType)
       .map(([tipo_imovel, quantidade]) => ({
         tipo_imovel,
-        percentual: this.roundToTwoDecimals((quantidade / total) * 100),
+        percentual: this.roundToTwoDecimals(((quantidade as number) / total) * 100),
         quantidade,
       }))
       .sort((a, b) => b.percentual - a.percentual); // Sort by percentage descending
