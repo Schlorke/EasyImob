@@ -135,10 +135,16 @@ export class AnalyticsService {
     const [monthA, yearA] = a.split('/').map(Number);
     const [monthB, yearB] = b.split('/').map(Number);
 
-    if (yearA !== yearB) {
-      return yearA - yearB;
+    // Type guards to ensure values are defined
+    const validYearA = yearA ?? 0;
+    const validYearB = yearB ?? 0;
+    const validMonthA = monthA ?? 0;
+    const validMonthB = monthB ?? 0;
+
+    if (validYearA !== validYearB) {
+      return validYearA - validYearB;
     }
-    return monthA - monthB;
+    return validMonthA - validMonthB;
   }
 
   /**
