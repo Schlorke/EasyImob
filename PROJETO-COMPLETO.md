@@ -50,12 +50,12 @@
 
 ### 🥇 Caminho A (Oficial - MySQL)
 
-```bash
+\`\`\`bash
 git checkout master
 npm install
 mysql -u root -p < db.sql
 npm run dev
-```
+\`\`\`
 
 **Stack:**
 
@@ -73,13 +73,13 @@ npm run dev
 
 ### 🏆 Caminho B (Moderno - PostgreSQL + Drizzle)
 
-```bash
+\`\`\`bash
 git checkout feature/supabase-drizzle
 npm install
 npm run db:generate
 npm run db:migrate && npm run db:seed
 npm run dev:drizzle
-```
+\`\`\`
 
 **Stack:**
 
@@ -119,143 +119,151 @@ npm run dev:drizzle
 
 ### Agregação por Imóvel
 
-```typescript
+\`\`\`typescript
 const groupedByProperty = data.reduce(
-  (acc, payment) => {
-    const key = payment.codigo_imovel;
-    if (!acc[key]) {
-      acc[key] = {
-        /* inicialização */
-      };
-    }
-    acc[key].total_pagamentos += payment.valor_do_pagamento;
-    return acc;
-  },
-  {} as Record<number, PaymentsByPropertyItem>
+(acc, payment) => {
+const key = payment.codigo*imovel;
+if (!acc[key]) {
+acc[key] = {
+/* inicialização \_/
+};
+}
+acc[key].total_pagamentos += payment.valor_do_pagamento;
+return acc;
+},
+{} as Record<number, PaymentsByPropertyItem>
 );
-```
+\`\`\`
 
 ### Agrupamento por Mês
 
-```typescript
+\`\`\`typescript
 const groupedByMonth = data.reduce(
-  (acc, payment) => {
-    const monthYear = this.formatToMonthYear(payment.data_do_pagamento);
-    acc[monthYear] = acc[monthYear] || { mes: monthYear, total: 0, quantidade: 0 };
-    acc[monthYear].total += payment.valor_do_pagamento;
-    acc[monthYear].quantidade += 1;
-    return acc;
-  },
-  {} as Record<string, SalesByMonthItem>
+(acc, payment) => {
+const monthYear = this.formatToMonthYear(payment.data_do_pagamento);
+acc[monthYear] = acc[monthYear] || { mes: monthYear, total: 0, quantidade: 0 };
+acc[monthYear].total += payment.valor_do_pagamento;
+acc[monthYear].quantidade += 1;
+return acc;
+},
+{} as Record<string, SalesByMonthItem>
 );
-```
+\`\`\`
 
 ### Cálculo de Percentuais
 
-```typescript
+\`\`\`typescript
 const share = Object.entries(countByType)
-  .map(([tipo_imovel, quantidade]) => ({
-    tipo_imovel,
-    percentual: this.roundToTwoDecimals((quantidade / total) * 100),
-    quantidade,
-  }))
-  .sort((a, b) => b.percentual - a.percentual);
-```
+.map(([tipo_imovel, quantidade]) => ({
+tipo_imovel,
+percentual: this.roundToTwoDecimals((quantidade / total) \* 100),
+quantidade,
+}))
+.sort((a, b) => b.percentual - a.percentual);
+\`\`\`
 
 ## 📱 Exemplos de Respostas
 
 ### /analytics/payments-by-property
 
-```json
+\`\`\`json
 [
-  {
-    "codigo_imovel": 8,
-    "descricao_imovel": "Galpão 800m² - Zona Sul",
-    "tipo_imovel": "Galpão",
-    "total_pagamentos": 18000.0
-  }
+{
+"codigo_imovel": 8,
+"descricao_imovel": "Galpão 800m² - Zona Sul",
+"tipo_imovel": "Galpão",
+"total_pagamentos": 18000.0
+}
 ]
-```
+\`\`\`
 
 ### /analytics/sales-by-month
 
-```json
+\`\`\`json
 {
-  "series": [
-    {
-      "mes": "02/2025",
-      "total": 12600.0,
-      "quantidade": 6
-    }
-  ]
+"series": [
+{
+"mes": "02/2025",
+"total": 12600.0,
+"quantidade": 6
 }
-```
+]
+}
+\`\`\`
 
 ### /analytics/sales-share-by-type
 
-```json
+\`\`\`json
 {
-  "share": [
-    {
-      "tipo_imovel": "Apartamento",
-      "percentual": 30.3,
-      "quantidade": 10
-    }
-  ],
-  "total": 33
+"share": [
+{
+"tipo_imovel": "Apartamento",
+"percentual": 30.3,
+"quantidade": 10
 }
-```
+],
+"total": 33
+}
+\`\`\`
 
 ## 🧪 Testes Implementados
 
 ### Unitários (services/analytics.service.test.ts)
 
-```bash
+\`\`\`bash
 ✅ calculatePaymentsByProperty
 ✅ calculateSalesByMonth
 ✅ calculateSalesShareByType
 ✅ Edge cases (dados vazios, arredondamentos)
-```
+\`\`\`
 
 ### Integração (routes/analytics.routes.test.ts)
 
-```bash
+\`\`\`bash
 ✅ GET /health
 ✅ GET /raw/payments
-✅ GET /analytics/* (todos os endpoints)
+✅ GET /analytics/\* (todos os endpoints)
 ✅ Error handling (500, mocks)
-```
+\`\`\`
 
 ### Coverage
 
-```bash
+\`\`\`bash
 npm run test:coverage
+
 # > 85% coverage nas funções críticas
-```
+
+\`\`\`
 
 ## 📋 Scripts de Evidência
 
 ### Geração Automática
 
-```bash
+\`\`\`bash
 npm run evidence:generate
-# Gera /evidences/*.json automaticamente
-```
+
+# Gera /evidences/\*.json automaticamente
+
+\`\`\`
 
 ### Testes Manuais
 
-```bash
+\`\`\`bash
+
 # Health check
+
 curl -s http://localhost:3000/health | jq
 
 # Dados brutos
+
 curl -s http://localhost:3000/raw/payments | jq
 
 # Analytics (3 endpoints)
+
 curl -s http://localhost:3000/analytics/payments-by-property | jq
 curl -s http://localhost:3000/analytics/sales-by-month | jq
 curl -s http://localhost:3000/analytics/sales-share-by-type | jq
-```
+\`\`\`
 
 ## 🎬 Roteiro de Vídeo (3 minutos)
 

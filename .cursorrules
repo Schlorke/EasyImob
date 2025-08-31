@@ -29,7 +29,7 @@ You are an AI agent working on the EasyImob project (HOW VII - UNIVALI).
 ## 🏗️ Architecture Rules
 
 ### Layer Separation (STRICT)
-```typescript
+\`\`\`typescript
 // ✅ Repository Layer - ONLY data access
 class PaymentsRepository {
   // ONLY SELECT JOIN queries, NO aggregations
@@ -58,12 +58,12 @@ class AnalyticsController {
     res.json(result);
   }
 }
-```
+\`\`\`
 
 ## ⚠️ FORBIDDEN Patterns
 
 ### ❌ NEVER DO THESE:
-```typescript
+\`\`\`typescript
 // ❌ SQL Aggregations (violates HOW VII)
 SELECT COUNT(*), SUM(value) FROM table GROUP BY field;
 SELECT * FROM table WHERE condition;
@@ -81,10 +81,10 @@ if (business_condition) { } // Move to service
 
 // ❌ Any types
 function process(data: any): any { }
-```
+\`\`\`
 
 ### ✅ ALWAYS DO THESE:
-```typescript
+\`\`\`typescript
 // ✅ Functional transformations
 const result = data
   .filter(item => item.isValid)
@@ -99,7 +99,7 @@ const newObject = { ...oldObject, newField: value };
 function transform(input: DataType): OutputType {
   return { ...input, calculated: input.value * 2 };
 }
-```
+\`\`\`
 
 ## 🎯 Implementation Workflow
 
@@ -111,7 +111,7 @@ function transform(input: DataType): OutputType {
 5. **Write Tests** (unit + integration)
 
 ### Example New Endpoint:
-```typescript
+\`\`\`typescript
 // 1. Types
 interface NewMetricResult {
   property_id: number;
@@ -139,12 +139,12 @@ async getNewMetric(req: Request, res: Response): Promise<void> {
 
 // 4. Route
 router.get('/analytics/new-metric', controller.getNewMetric);
-```
+\`\`\`
 
 ## 🧪 Testing Requirements
 
 ### Unit Tests (Services)
-```typescript
+\`\`\`typescript
 describe('AnalyticsService', () => {
   it('should calculate correctly with pure functions', () => {
     const input = [/* controlled data */];
@@ -152,10 +152,10 @@ describe('AnalyticsService', () => {
     expect(result).toEqual(/* expected output */);
   });
 });
-```
+\`\`\`
 
 ### Integration Tests (Endpoints)
-```typescript
+\`\`\`typescript
 describe('GET /analytics/endpoint', () => {
   it('should return correct JSON structure', async () => {
     const response = await request(app).get('/analytics/endpoint');
@@ -163,19 +163,19 @@ describe('GET /analytics/endpoint', () => {
     expect(response.body).toHaveProperty('expectedField');
   });
 });
-```
+\`\`\`
 
 ## 📊 Data Processing Rules
 
 ### The Golden Rule: Raw Data → Functional Processing
-```typescript
+\`\`\`typescript
 // PATTERN: Repository gets raw data, Service processes functionally
 const pipeline = (rawData: PaymentData[]) =>
   rawData
     .filter(/* business condition */)
     .map(/* data transformation */)
     .reduce(/* aggregation logic */, initialValue);
-```
+\`\`\`
 
 ### Current Endpoints (DON'T BREAK):
 - `GET /health` - System health
@@ -202,7 +202,7 @@ After implementing:
 
 ## 🎨 Naming Conventions
 
-```typescript
+\`\`\`typescript
 // Interfaces/Types - PascalCase
 interface PaymentData { }
 type AnalyticsResult = { };
@@ -220,11 +220,11 @@ const MAX_RETRIES = 3;
 // Files - kebab-case
 analytics.service.ts
 development-guide.md
-```
+\`\`\`
 
 ## 🚨 Error Handling
 
-```typescript
+\`\`\`typescript
 // ✅ Structured error handling
 try {
   const result = await this.processData(data);
@@ -237,7 +237,7 @@ try {
   });
   res.status(500).json({ error: 'Internal server error' });
 }
-```
+\`\`\`
 
 ## 📈 Performance Guidelines
 

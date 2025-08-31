@@ -15,34 +15,38 @@ O projeto está configurado para verificação ortográfica em **português bras
 
 #### `.vscode/settings.json`
 
-```json
+\`\`\`json
 {
-  "cSpell.enabled": true,
-  "cSpell.language": "en,pt_BR"
+"cSpell.enabled": true,
+"cSpell.language": "en,pt_BR"
 }
-```
+\`\`\`
 
 #### `cspell.json` (Raiz do projeto)
 
-```json
+\`\`\`json
 {
-  "language": "en,pt_BR",
-  "words": ["EasyImob", "UNIVALI", "analytics", ...]
+"language": "en,pt_BR",
+"words": ["EasyImob", "UNIVALI", "analytics", ...]
 }
-```
+\`\`\`
 
 ## 📋 Comandos Disponíveis
 
-```bash
+\`\`\`bash
+
 # Verificar ortografia de todos os arquivos
+
 npm run spell:check
 
 # Verificação silenciosa (apenas erros)
+
 npm run spell:check-silent
 
 # Verificar arquivo específico
+
 npx cspell README.md
-```
+\`\`\`
 
 ## 📚 Dicionários Customizados
 
@@ -57,25 +61,25 @@ npx cspell README.md
 
 #### Método 1: Via cspell.json
 
-```json
+\`\`\`json
 {
-  "words": ["nova-palavra", "outro-termo"]
+"words": ["nova-palavra", "outro-termo"]
 }
-```
+\`\`\`
 
 #### Método 2: Via comentário no código
 
-```typescript
+\`\`\`typescript
 // cspell:words minhapalavra outrotermos
 const minhapalavra = 'exemplo';
-```
+\`\`\`
 
 #### Método 3: Ignorar linha específica
 
-```typescript
+\`\`\`typescript
 // cspell:disable-next-line
 const termIncorreto = 'naoexiste';
-```
+\`\`\`
 
 ## 🚫 Arquivos Ignorados
 
@@ -109,13 +113,13 @@ Se uma palavra técnica válida está sendo marcada como erro:
 
 ### Exemplo de Falso Positivo
 
-```typescript
+\`\`\`typescript
 // ANTES: 'pagamento' sendo marcado como erro
 const pagamento = data.valor_do_pagamento;
 
 // DEPOIS: Palavra adicionada ao dicionário customizado
 // Agora 'pagamento' é reconhecido automaticamente
-```
+\`\`\`
 
 ### Configuração Regional
 
@@ -128,11 +132,13 @@ O projeto usa:
 
 Adicione ao pipeline de qualidade:
 
-```yaml
+\`\`\`yaml
+
 # .github/workflows/quality.yml
+
 - name: Spell Check
   run: npm run spell:check-silent
-```
+  \`\`\`
 
 ## 🎯 Boas Práticas
 
@@ -146,24 +152,26 @@ Adicione ao pipeline de qualidade:
 
 ### Código Misto (Recomendado)
 
-```typescript
-/**
- * Serviço para análise de vendas imobiliárias
- * Analytics service for real estate sales
- */
-export class AnalyticsService {
+\`\`\`typescript
+/\*\*
+
+- Serviço para análise de vendas imobiliárias
+- Analytics service for real estate sales
+  \*/
+  export class AnalyticsService {
   // Calcula pagamentos por imóvel
   calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
-    return data.reduce((acc, pagamento) => {
-      // lógica de agregação...
-    }, {});
+  return data.reduce((acc, pagamento) => {
+  // lógica de agregação...
+  }, {});
   }
-}
-```
+  }
+  \`\`\`
 
 ### Documentação Bilíngue
 
-```markdown
+\`\`\`markdown
+
 # Analytics Endpoints
 
 ## GET /analytics/payments-by-property
@@ -171,7 +179,7 @@ export class AnalyticsService {
 Retorna total de pagamentos agrupados por imóvel.
 
 Returns payment totals grouped by property.
-```
+\`\`\`
 
 ---
 

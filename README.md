@@ -8,9 +8,9 @@ Backend HTTP/REST completo desenvolvido para o Hands On Work VII (UNIVALI), impl
 
 **🤖 Para Agentes de IA**: Leia SEMPRE a documentação antes de implementar:
 
-```bash
-npm run agent:docs  # Validador automático de documentação
-```
+\`\`\`bash
+npm run agent:docs # Validador automático de documentação
+\`\`\`
 
 ### 📋 Documentos Disponíveis
 
@@ -25,24 +25,31 @@ npm run agent:docs  # Validador automático de documentação
 
 ### 🚀 Quick Start
 
-```bash
+\`\`\`bash
+
 # 1. Instalar dependências
+
 npm install
 
 # 2. Configurar banco de dados
+
 mysql -u root -p < db.sql
 
 # 3. Configurar variáveis (.env)
+
 cp env.example .env
+
 # Editar .env com suas configurações
 
 # 4. Iniciar desenvolvimento
+
 npm run dev
 
 # 5. Testar endpoints
+
 curl http://localhost:3000/health
 curl http://localhost:3000/analytics/payments-by-property
-```
+\`\`\`
 
 ## 🎯 Características Principais
 
@@ -73,26 +80,31 @@ curl http://localhost:3000/analytics/payments-by-property
 
 ## 🛠️ Comandos Principais
 
-```bash
+\`\`\`bash
+
 # Desenvolvimento
-npm run dev              # Servidor desenvolvimento
-npm run build            # Build TypeScript
-npm start               # Servidor produção
+
+npm run dev # Servidor desenvolvimento
+npm run build # Build TypeScript
+npm start # Servidor produção
 
 # Qualidade
-npm run lint            # Verificar código
-npm run test            # Executar testes
-npm run spell:check     # Verificar ortografia
+
+npm run lint # Verificar código
+npm run test # Executar testes
+npm run spell:check # Verificar ortografia
 
 # Formatação
-npm run format          # Formatar TypeScript
-npm run format:md       # Formatar Markdown
-npm run format:all      # Formatar todos os arquivos
+
+npm run format # Formatar TypeScript
+npm run format:md # Formatar Markdown
+npm run format:all # Formatar todos os arquivos
 
 # Utilitários
-npm run agent:docs      # Validar documentação para IA
+
+npm run agent:docs # Validar documentação para IA
 npm run evidence:generate # Gerar evidências JSON
-```
+\`\`\`
 
 ## 🎓 Projeto Acadêmico
 

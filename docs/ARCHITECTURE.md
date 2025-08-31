@@ -24,7 +24,7 @@
 
 ### 1. Clean Architecture (Hexagonal)
 
-```
+````
 ┌─────────────────────────────────────────┐
 │             Controllers                 │ ← HTTP Layer
 ├─────────────────────────────────────────┤
@@ -34,7 +34,7 @@
 ├─────────────────────────────────────────┤
 │             Database                    │ ← Infrastructure
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 2. Separation of Concerns
 
@@ -62,7 +62,7 @@ export class AnalyticsController {
     res.json(result);
   }
 }
-```
+\`\`\`
 
 ### 🧠 Business Layer (`src/services/`)
 
@@ -78,7 +78,7 @@ export class AnalyticsService {
     );
   }
 }
-```
+\`\`\`
 
 ### 💾 Data Layer (`src/repositories/`)
 
@@ -96,11 +96,11 @@ export class PaymentsRepository {
     // Return raw data for in-memory processing
   }
 }
-```
+\`\`\`
 
 ## 🔄 Fluxo de Dados
 
-```mermaid
+\`\`\`mermaid
 graph TD
     A[HTTP Request] --> B[Controller]
     B --> C[Repository]
@@ -110,7 +110,7 @@ graph TD
     F --> G[Functional Processing]
     G --> H[Aggregated Data]
     H --> I[JSON Response]
-```
+\`\`\`
 
 ### Exemplo Completo: `/analytics/payments-by-property`
 
@@ -139,7 +139,7 @@ export const createAnalyticsController = (
 ): AnalyticsController => {
   return new AnalyticsController(repository, service);
 };
-```
+\`\`\`
 
 ### 3. Functional Programming
 
@@ -153,7 +153,7 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
       quantidade,
     }))
     .sort((a, b) => b.percentual - a.percentual);
-```
+\`\`\`
 
 ### 4. Immutable Data Structures
 
@@ -223,7 +223,7 @@ async getNewMetric(req: Request, res: Response): Promise<void> {
 
 // 3. Registrar rota
 router.get('/analytics/new-metric', controller.getNewMetric);
-```
+\`\`\`
 
 ### Novos Dados
 
@@ -239,7 +239,7 @@ const query = `
   FROM /* existing joins */
   JOIN nova_tabela ON /* condition */
 `;
-```
+\`\`\`
 
 ## 🧪 Estratégia de Testes
 
@@ -265,3 +265,4 @@ const query = `
 - **Dependency Injection**: SOLID Principles
 - **RESTful APIs**: Roy Fielding
 - **TypeScript Best Practices**: Microsoft Documentation
+````

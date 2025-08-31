@@ -28,17 +28,17 @@ Any suggestion that breaks these rules could cause the student to fail. Be extre
 
 ## 🏗️ Architecture Overview
 
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
-│  Controllers (HTTP only)               │
+│ Controllers (HTTP only) │
 ├─────────────────────────────────────────┤
-│  Services (Functional Programming)     │
+│ Services (Functional Programming) │
 ├─────────────────────────────────────────┤
-│  Repositories (Single JOIN only)       │
+│ Repositories (Single JOIN only) │
 ├─────────────────────────────────────────┤
-│  Database (MySQL)                      │
+│ Database (MySQL) │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Current Data Flow
 
@@ -51,22 +51,22 @@ Any suggestion that breaks these rules could cause the student to fail. Be extre
 
 ### ✅ ALWAYS Suggest These Patterns
 
-```typescript
+\`\`\`typescript
 // ✅ Functional data processing
 const processPayments = (data: PaymentData[]): Result[] =>
-  data
-    .filter((payment) => payment.valor_do_pagamento > 0)
-    .map((payment) => ({
-      ...payment,
-      formatted_value: formatCurrency(payment.valor_do_pagamento),
-    }))
-    .reduce(
-      (acc, payment) => {
-        acc[payment.codigo_imovel] = (acc[payment.codigo_imovel] || 0) + payment.valor_do_pagamento;
-        return acc;
-      },
-      {} as Record<number, number>
-    );
+data
+.filter((payment) => payment.valor_do_pagamento > 0)
+.map((payment) => ({
+...payment,
+formatted_value: formatCurrency(payment.valor_do_pagamento),
+}))
+.reduce(
+(acc, payment) => {
+acc[payment.codigo_imovel] = (acc[payment.codigo_imovel] || 0) + payment.valor_do_pagamento;
+return acc;
+},
+{} as Record<number, number>
+);
 
 // ✅ Immutable updates
 const newArray = [...oldArray, newItem];
@@ -74,20 +74,20 @@ const newObject = { ...oldObject, newField: value };
 
 // ✅ Pure functions
 const calculatePercentage = (value: number, total: number): number =>
-  Math.round((value / total) * 100 * 100) / 100; // 2 decimal places
+Math.round((value / total) _ 100 _ 100) / 100; // 2 decimal places
 
 // ✅ Type-safe interfaces
 interface PaymentsByPropertyItem {
-  codigo_imovel: number;
-  descricao_imovel: string;
-  tipo_imovel: string;
-  total_pagamentos: number;
+codigo_imovel: number;
+descricao_imovel: string;
+tipo_imovel: string;
+total_pagamentos: number;
 }
-```
+\`\`\`
 
 ### ❌ NEVER Suggest These Patterns
 
-```typescript
+\`\`\`typescript
 // ❌ SQL aggregations (violates HOW VII)
 SELECT codigo_imovel, SUM(valor_do_pagamento)
 FROM venda_pagamento
@@ -95,7 +95,7 @@ GROUP BY codigo_imovel;
 
 // ❌ Imperative loops (use functional instead)
 for (let i = 0; i < array.length; i++) {
-  result += array[i].value;
+result += array[i].value;
 }
 
 // ❌ Mutations (use immutable patterns)
@@ -104,12 +104,12 @@ object.property = newValue;
 
 // ❌ Business logic in controllers
 if (payment.value > 1000) { // Move to service
-  // business logic here
+// business logic here
 }
 
 // ❌ Any types (use specific types)
 function process(data: any): any { }
-```
+\`\`\`
 
 ## 📊 Current Endpoints (Don't Break)
 
@@ -125,7 +125,7 @@ function process(data: any): any { }
 
 ### 1. Follow This Pattern
 
-```typescript
+````typescript
 // Step 1: Define types in src/types/index.ts
 interface NewAnalyticsResult {
   metric_name: string;
@@ -154,7 +154,7 @@ class AnalyticsController {
 
 // Step 4: Register route
 router.get('/analytics/new-metric', controller.getNewMetric);
-```
+\`\`\`
 
 ### 2. Always Include Tests
 
@@ -168,7 +168,7 @@ describe('calculateNewMetric', () => {
     expect(result).toEqual(/* expected result */);
   });
 });
-```
+\`\`\`
 
 ## 🧪 Testing Suggestions
 
@@ -207,7 +207,7 @@ Since all processing is in-memory (HOW VII requirement):
 - Use built-in array methods (optimized)
 - Consider early returns with `filter()`
 
-```typescript
+\`\`\`typescript
 // ✅ Efficient functional pattern
 const result = data
   .filter((payment) => payment.valor_do_pagamento > minValue) // Early filtering
@@ -218,11 +218,11 @@ const result = data
 const result = data.map(
   (payment) => data.filter((p) => p.codigo_imovel === payment.codigo_imovel) // Nested loop
 );
-```
+\`\`\`
 
 ## 🎨 Naming Convention Guidance
 
-```typescript
+\`\`\`typescript
 // Interfaces - PascalCase
 interface PaymentAnalyticsResult {}
 
@@ -237,35 +237,35 @@ const processedData = [];
 const MAX_PAYMENT_VALUE = 100000;
 
 // Files - kebab-case
-payment - analytics.service.ts;
-```
+payment-analytics.service.ts
+````
 
 ## 🚨 Error Handling Patterns
 
-```typescript
+\`\`\`typescript
 // ✅ Structured error handling
 try {
-  const data = await repository.getAllPaymentsData();
-  const result = service.processData(data);
-  res.status(200).json(result);
+const data = await repository.getAllPaymentsData();
+const result = service.processData(data);
+res.status(200).json(result);
 } catch (error) {
-  console.error('Analytics processing failed:', {
-    error: error.message,
-    stack: error.stack,
-    timestamp: new Date().toISOString(),
-  });
-  res.status(500).json({
-    error: 'Internal server error',
-    message: process.env.NODE_ENV === 'development' ? error.message : 'Processing failed',
-  });
+console.error('Analytics processing failed:', {
+error: error.message,
+stack: error.stack,
+timestamp: new Date().toISOString(),
+});
+res.status(500).json({
+error: 'Internal server error',
+message: process.env.NODE_ENV === 'development' ? error.message : 'Processing failed',
+});
 }
-```
+\`\`\`
 
 ## 🎯 Contextual Suggestions
 
 ### When you see functional programming needed:
 
-```typescript
+````typescript
 // Instead of suggesting:
 let total = 0;
 for (const payment of payments) {
@@ -274,7 +274,7 @@ for (const payment of payments) {
 
 // Suggest:
 const total = payments.reduce((sum, payment) => sum + payment.value, 0);
-```
+\`\`\`
 
 ### When you see data transformation needed:
 
@@ -286,8 +286,8 @@ for (const payment of payments) {
 }
 
 // Suggest:
-const result = payments.map((payment) => ({ ...payment, processed: true }));
-```
+const result = payments.map(payment => ({ ...payment, processed: true }));
+````
 
 ### When you see filtering needed:
 

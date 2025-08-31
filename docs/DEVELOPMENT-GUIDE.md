@@ -17,34 +17,36 @@ Este documento orienta desenvolvedores humanos e agentes de IA (ChatGPT, Claude,
 
 ### 📚 Documentação Obrigatória
 
-```bash
+\`\`\`bash
+
 # Ordem de leitura recomendada para contexto completo:
-1. docs/ARCHITECTURE.md     # Entender a arquitetura
+
+1. docs/ARCHITECTURE.md # Entender a arquitetura
 2. docs/DEVELOPMENT-GUIDE.md # Este arquivo
-3. CHANGELOG.md            # Histórico de mudanças
-4. README.md               # Visão geral do projeto
-5. .cursorrules            # Regras específicas do Cursor
-```
+3. CHANGELOG.md # Histórico de mudanças
+4. README.md # Visão geral do projeto
+5. .cursorrules # Regras específicas do Cursor
+   \`\`\`
 
 ## 🏗️ Convenções de Código
 
 ### 📁 Estrutura de Arquivos
 
-```
+\`\`\`
 src/
-├── types/              # Tipos TypeScript - SEMPRE definir aqui primeiro
-├── db/                 # Conexão e configuração de banco
-├── repositories/       # APENAS SELECT JOIN - sem WHERE/GROUP BY
-├── services/           # Lógica de negócio - FUNCTIONAL PROGRAMMING APENAS
-├── controllers/        # HTTP handlers - delegar para services
-├── routes/             # Definição de endpoints
-├── app.ts              # Configuração Express
-└── server.ts           # Bootstrap da aplicação
-```
+├── types/ # Tipos TypeScript - SEMPRE definir aqui primeiro
+├── db/ # Conexão e configuração de banco
+├── repositories/ # APENAS SELECT JOIN - sem WHERE/GROUP BY
+├── services/ # Lógica de negócio - FUNCTIONAL PROGRAMMING APENAS
+├── controllers/ # HTTP handlers - delegar para services
+├── routes/ # Definição de endpoints
+├── app.ts # Configuração Express
+└── server.ts # Bootstrap da aplicação
+\`\`\`
 
 ### 🎨 Padrões de Nomenclatura
 
-```typescript
+\`\`\`typescript
 // Interfaces e Types - PascalCase
 interface PaymentData {}
 type AnalyticsResponse = {};
@@ -62,14 +64,15 @@ const BASE_URL = 'http://localhost:3000';
 const DEFAULT_LIMIT = 100;
 
 // Arquivos - kebab-case
-analytics.service.ts;
-payments.repository.ts;
-development - guide.md;
-```
+analytics.service.ts
+payments.repository.ts
+development-guide.md
+
+````
 
 ### 🔧 Convenções TypeScript
 
-```typescript
+\`\`\`typescript
 // ✅ SEMPRE usar tipos explícitos
 function calculateTotal(payments: PaymentData[]): number {
   return payments.reduce((sum, payment) => sum + payment.valor_do_pagamento, 0);
@@ -94,13 +97,13 @@ function badFunction(data: any): any {} // FORBIDDEN
 function safeFunction(data: unknown): ParsedData {
   // Type guards aqui
 }
-```
+\`\`\`
 
 ## 🧩 Padrões de Implementação
 
 ### 🎯 Regra #1: Programação Funcional nos Services
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Functional Programming
 class AnalyticsService {
   calculateMetrics(data: PaymentData[]): MetricsResult {
@@ -130,11 +133,11 @@ class BadService {
     return result;
   }
 }
-```
+\`\`\`
 
 ### 🎯 Regra #2: Repository Apenas SELECT JOIN
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Apenas JOIN, sem agregações
 class PaymentsRepository {
   async getAllPaymentsData(): Promise<PaymentData[]> {
@@ -155,18 +158,18 @@ class BadRepository {
   async getAggregatedData(): Promise<any> {
     const query = `
       SELECT codigo_imovel, SUM(valor_do_pagamento) as total  -- FORBIDDEN
-      FROM venda_pagamento 
+      FROM venda_pagamento
       WHERE data_do_pagamento > '2024-01-01'                  -- FORBIDDEN
       GROUP BY codigo_imovel                                  -- FORBIDDEN
     `;
     return this.executeQuery(query);
   }
 }
-```
+\`\`\`
 
 ### 🎯 Regra #3: Controllers como HTTP Handlers
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Delegar para service
 export class AnalyticsController {
   constructor(
@@ -208,13 +211,13 @@ export class BadController {
     res.json(grouped);
   }
 }
-```
+\`\`\`
 
 ## 🧪 Padrões de Testes
 
 ### Unit Tests para Services
 
-```typescript
+\`\`\`typescript
 // ✅ Teste focado em lógica pura
 describe('AnalyticsService', () => {
   let service: AnalyticsService;
@@ -249,11 +252,11 @@ describe('AnalyticsService', () => {
     expect(result[0].total_pagamentos).toBe(3000.0);
   });
 });
-```
+\`\`\`
 
 ### Integration Tests para Controllers
 
-```typescript
+\`\`\`typescript
 // ✅ Teste end-to-end com mocks
 describe('Analytics Routes', () => {
   const app = createApp();
@@ -271,7 +274,7 @@ describe('Analytics Routes', () => {
     expect(response.body[0]).toHaveProperty('total_pagamentos');
   });
 });
-```
+\`\`\`
 
 ## 🔄 Fluxo de Desenvolvimento
 
@@ -292,11 +295,11 @@ describe('Analytics Routes', () => {
 
 3. **Implementar seguindo as camadas**
    - Types → Repository → Service → Controller → Routes
-```
+\`\`\`
 
 ### 2. Implementação Step-by-Step
 
-```typescript
+\`\`\`typescript
 // STEP 1: Definir tipos em src/types/index.ts
 export interface NewMetricItem {
   property_id: number;
@@ -349,13 +352,13 @@ describe('calculateNewMetric', () => {
     // Arrange, Act, Assert
   });
 });
-```
+\`\`\`
 
 ## 🚨 Regras Críticas para IA
 
 ### ⛔ NUNCA FAZER
 
-```typescript
+\`\`\`typescript
 // ❌ Quebrar programação funcional
 for (let item of array) { } // Use map/filter/reduce instead
 
@@ -374,11 +377,11 @@ function process(data: any): any { }
 
 // ❌ Console.log em produção sem contexto
 console.log(data); // Use structured logging
-```
+\`\`\`
 
 ### ✅ SEMPRE FAZER
 
-```typescript
+\`\`\`typescript
 // ✅ Programação funcional
 const result = data
   .filter((item) => item.isValid)
@@ -398,7 +401,7 @@ function process(data: PaymentData[]): ProcessedResult {
 // Repository: apenas dados
 // Service: apenas lógica
 // Controller: apenas HTTP
-```
+\`\`\`
 
 ## 🔍 Debugging e Troubleshooting
 
@@ -418,7 +421,7 @@ console.error('❌ Error in analytics calculation:', {
   stack: error.stack,
   input: { dataLength: data.length },
 });
-```
+\`\`\`
 
 ### Performance Monitoring
 
@@ -432,7 +435,7 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
   inputSize: data.length,
   outputSize: result.length,
 });
-```
+\`\`\`
 
 ## 📊 Métricas de Qualidade
 
@@ -471,3 +474,4 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
 ---
 
 **🤖 LEMBRETE PARA AGENTES DE IA**: Este projeto segue padrões acadêmicos específicos (HOW VII). Qualquer desvio das regras de programação funcional ou estrutura de camadas pode invalidar o trabalho. Sempre priorize conformidade com os requisitos sobre otimizações prematuras.
+````
