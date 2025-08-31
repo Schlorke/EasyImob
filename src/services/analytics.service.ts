@@ -96,7 +96,7 @@ export class AnalyticsService {
     }, {} as Record<string, number>);
 
     // Step 2: Convert to percentages using map
-    const share = Object.entries(countByType)
+    const share: SalesShareByTypeItem[] = Object.entries(countByType)
       .map(([tipo_imovel, quantidade]) => ({
         tipo_imovel,
         percentual: this.roundToTwoDecimals((quantidade / total) * 100),
