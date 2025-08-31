@@ -1,0 +1,277 @@
+# 🎯 Cursor AI Agent Rules - EasyImob Project
+
+## 🤖 CRITICAL: Read Documentation First
+
+You are an AI agent working on the EasyImob project (HOW VII - UNIVALI).
+
+**MANDATORY**: Before ANY implementation, you MUST read in this exact order:
+1. `docs/ARCHITECTURE.md` - Understand the system structure
+2. `docs/DEVELOPMENT-GUIDE.md` - Learn coding conventions
+3. `CHANGELOG.md` - Know what has been implemented
+4. `README.md` - Understand project context
+
+## 📋 Project Context
+
+### Academic Requirements (HOW VII)
+- **Institution**: UNIVALI (University)
+- **Course**: Hands On Work VII
+- **Constraint**: NO WHERE/GROUP BY in SQL - process data in memory
+- **Paradigm**: Functional Programming ONLY (map/filter/reduce/forEach)
+- **Architecture**: Clean Architecture with TypeScript
+
+### Core Principles
+- **Single JOIN Query**: Repository returns raw data (6 columns exactly)
+- **Functional Processing**: All aggregations done in Services layer
+- **Immutable Data**: Never mutate objects/arrays
+- **Pure Functions**: Deterministic, side-effect free
+- **Type Safety**: Explicit TypeScript types everywhere
+
+## 🏗️ Architecture Rules
+
+### Layer Separation (STRICT)
+```typescript
+// ✅ Repository Layer - ONLY data access
+class PaymentsRepository {
+  // ONLY SELECT JOIN queries, NO aggregations
+  async getAllPaymentsData(): Promise<PaymentData[]> {
+    const query = `SELECT vp.id_venda, vp.data_do_pagamento...`;
+    // Raw data only
+  }
+}
+
+// ✅ Service Layer - ONLY business logic
+class AnalyticsService {
+  // ONLY map/filter/reduce/forEach
+  calculateMetrics(data: PaymentData[]): Result {
+    return data
+      .filter(condition)     // Pure filtering
+      .map(transformation)   // Pure transformation
+      .reduce(aggregation);  // Pure aggregation
+  }
+}
+
+// ✅ Controller Layer - ONLY HTTP handling
+class AnalyticsController {
+  async getMetrics(req: Request, res: Response): Promise<void> {
+    const data = await this.repository.getAllPaymentsData();
+    const result = this.service.calculateMetrics(data);
+    res.json(result);
+  }
+}
+```
+
+## ⚠️ FORBIDDEN Patterns
+
+### ❌ NEVER DO THESE:
+```typescript
+// ❌ SQL Aggregations (violates HOW VII)
+SELECT COUNT(*), SUM(value) FROM table GROUP BY field;
+SELECT * FROM table WHERE condition;
+
+// ❌ Imperative loops in services
+for (let i = 0; i < array.length; i++) { }
+while (condition) { }
+
+// ❌ Mutations
+array.push(item);           // Use [...array, item]
+object.field = value;       // Use {...object, field: value}
+
+// ❌ Business logic in controllers
+if (business_condition) { } // Move to service
+
+// ❌ Any types
+function process(data: any): any { }
+```
+
+### ✅ ALWAYS DO THESE:
+```typescript
+// ✅ Functional transformations
+const result = data
+  .filter(item => item.isValid)
+  .map(item => ({ ...item, processed: true }))
+  .reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
+
+// ✅ Immutable updates
+const newArray = [...oldArray, newItem];
+const newObject = { ...oldObject, newField: value };
+
+// ✅ Pure functions
+function transform(input: DataType): OutputType {
+  return { ...input, calculated: input.value * 2 };
+}
+```
+
+## 🎯 Implementation Workflow
+
+### When Adding New Features:
+1. **Define Types First** (`src/types/index.ts`)
+2. **Add Service Method** (functional processing only)
+3. **Add Controller Method** (HTTP handler only)
+4. **Register Route** (`src/routes/`)
+5. **Write Tests** (unit + integration)
+
+### Example New Endpoint:
+```typescript
+// 1. Types
+interface NewMetricResult {
+  property_id: number;
+  metric_value: number;
+}
+
+// 2. Service (functional only)
+class AnalyticsService {
+  calculateNewMetric(data: PaymentData[]): NewMetricResult[] {
+    return data
+      .filter(p => p.valor_do_pagamento > 1000)
+      .map(p => ({
+        property_id: p.codigo_imovel,
+        metric_value: p.valor_do_pagamento * 1.1
+      }));
+  }
+}
+
+// 3. Controller (HTTP only)
+async getNewMetric(req: Request, res: Response): Promise<void> {
+  const data = await this.repository.getAllPaymentsData();
+  const result = this.service.calculateNewMetric(data);
+  res.json(result);
+}
+
+// 4. Route
+router.get('/analytics/new-metric', controller.getNewMetric);
+```
+
+## 🧪 Testing Requirements
+
+### Unit Tests (Services)
+```typescript
+describe('AnalyticsService', () => {
+  it('should calculate correctly with pure functions', () => {
+    const input = [/* controlled data */];
+    const result = service.calculate(input);
+    expect(result).toEqual(/* expected output */);
+  });
+});
+```
+
+### Integration Tests (Endpoints)
+```typescript
+describe('GET /analytics/endpoint', () => {
+  it('should return correct JSON structure', async () => {
+    const response = await request(app).get('/analytics/endpoint');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('expectedField');
+  });
+});
+```
+
+## 📊 Data Processing Rules
+
+### The Golden Rule: Raw Data → Functional Processing
+```typescript
+// PATTERN: Repository gets raw data, Service processes functionally
+const pipeline = (rawData: PaymentData[]) =>
+  rawData
+    .filter(/* business condition */)
+    .map(/* data transformation */)
+    .reduce(/* aggregation logic */, initialValue);
+```
+
+### Current Endpoints (DON'T BREAK):
+- `GET /health` - System health
+- `GET /raw/payments` - Raw JOIN data (6 columns)
+- `GET /analytics/payments-by-property` - Functional grouping by property
+- `GET /analytics/sales-by-month` - Functional grouping by month
+- `GET /analytics/sales-share-by-type` - Functional percentage calculation
+
+## 🔧 Code Quality Gates
+
+Before implementing:
+- [ ] Read required documentation
+- [ ] Understand existing patterns
+- [ ] Plan functional approach
+- [ ] Ensure type safety
+- [ ] Write tests
+
+After implementing:
+- [ ] Run `npm run lint` (must pass)
+- [ ] Run `npm run test` (must pass)
+- [ ] Run `npm run spell:check` (must pass)
+- [ ] Verify functional programming used
+- [ ] Update documentation if needed
+
+## 🎨 Naming Conventions
+
+```typescript
+// Interfaces/Types - PascalCase
+interface PaymentData { }
+type AnalyticsResult = { };
+
+// Classes - PascalCase
+class AnalyticsService { }
+
+// Methods/Variables - camelCase
+calculatePaymentsByProperty()
+const monthlyData = [];
+
+// Constants - UPPER_SNAKE_CASE
+const MAX_RETRIES = 3;
+
+// Files - kebab-case
+analytics.service.ts
+development-guide.md
+```
+
+## 🚨 Error Handling
+
+```typescript
+// ✅ Structured error handling
+try {
+  const result = await this.processData(data);
+  res.json(result);
+} catch (error) {
+  console.error('Error in processData:', {
+    error: error.message,
+    stack: error.stack,
+    context: { dataLength: data.length }
+  });
+  res.status(500).json({ error: 'Internal server error' });
+}
+```
+
+## 📈 Performance Guidelines
+
+- Single database query per endpoint (the JOIN)
+- Process data in memory (required by HOW VII)
+- Use functional programming (required by HOW VII)
+- Log performance for operations > 100ms
+
+## 🎯 Success Criteria
+
+### For HOW VII Compliance:
+- ✅ Single JOIN query (6 columns exactly)
+- ✅ No WHERE/GROUP BY in consumed queries
+- ✅ Functional programming in all data processing
+- ✅ Clean Architecture separation
+- ✅ Complete test coverage
+- ✅ TypeScript strict mode
+
+### For Code Quality:
+- ✅ Zero ESLint warnings
+- ✅ All tests passing
+- ✅ Spell check clean
+- ✅ Documentation updated
+- ✅ Performance within limits
+
+## 🤖 AI Agent Specific Instructions
+
+You are Claude/Cursor AI working on an academic project. Your code will be evaluated by professors.
+
+**CRITICAL**: This is NOT a typical web application. It's an academic exercise with specific constraints:
+- Academic requirement: demonstrate functional programming
+- Performance requirement: process data in memory
+- Architecture requirement: clean separation of concerns
+
+**When in doubt**: Choose functional programming over performance, type safety over convenience, explicit over implicit.
+
+**Remember**: Every violation of functional programming or architectural principles could result in academic penalty. Follow the rules strictly.

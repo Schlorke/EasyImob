@@ -10,7 +10,7 @@ export class PaymentsRepository {
   /**
    * Executes the main JOIN query returning exactly the 6 required columns:
    * id_venda, data_do_pagamento, valor_do_pagamento, codigo_imovel, descricao_imovel, tipo_imovel
-   * 
+   *
    * This is the ONLY SQL query consumed by the analytics endpoints.
    * No WHERE/GROUP BY clauses - all filtering/aggregation done in memory.
    */
@@ -31,7 +31,7 @@ export class PaymentsRepository {
 
     try {
       const [rows] = await pool.execute<RowDataPacket[]>(query);
-      
+
       // Transform database rows to PaymentData type
       return rows.map((row) => ({
         id_venda: row.id_venda as number,

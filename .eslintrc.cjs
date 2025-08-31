@@ -1,3 +1,5 @@
+const tseslint = require('@typescript-eslint/eslint-plugin');
+
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -5,7 +7,9 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
-  extends: ['eslint:recommended'],
+  extends: [
+    'eslint:recommended',
+  ],
   root: true,
   env: {
     node: true,
@@ -18,9 +22,12 @@ module.exports = {
     'no-console': 'off', // Allow console logs in backend
     'no-unused-vars': 'off', // Disable base rule as it can report incorrect errors
     
-    // TypeScript specific rules
+    // TypeScript specific rules (using the latest v8 syntax)
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off', // Too strict for this project
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/no-unsafe-call': 'off',
   },
 };

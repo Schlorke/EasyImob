@@ -37,14 +37,17 @@ export class AnalyticsController {
    * Returns total accumulated payments per property
    * Processing done in memory using reduce (no SQL GROUP BY)
    */
-  async getPaymentsByProperty(_req: Request, res: Response<PaymentsByPropertyItem[]>): Promise<void> {
+  async getPaymentsByProperty(
+    _req: Request,
+    res: Response<PaymentsByPropertyItem[]>
+  ): Promise<void> {
     try {
       // Fetch raw data from single JOIN query
       const rawData = await this.paymentsRepository.getAllPaymentsData();
-      
+
       // Process in memory using functional programming
       const result = this.analyticsService.calculatePaymentsByProperty(rawData);
-      
+
       res.status(200).json(result);
     } catch (error) {
       console.error('❌ Error in getPaymentsByProperty:', error);
@@ -61,10 +64,10 @@ export class AnalyticsController {
     try {
       // Fetch raw data from single JOIN query
       const rawData = await this.paymentsRepository.getAllPaymentsData();
-      
+
       // Process in memory using functional programming
       const result = this.analyticsService.calculateSalesByMonth(rawData);
-      
+
       res.status(200).json(result);
     } catch (error) {
       console.error('❌ Error in getSalesByMonth:', error);
@@ -81,10 +84,10 @@ export class AnalyticsController {
     try {
       // Fetch raw data from single JOIN query
       const rawData = await this.paymentsRepository.getAllPaymentsData();
-      
+
       // Process in memory using functional programming
       const result = this.analyticsService.calculateSalesShareByType(rawData);
-      
+
       res.status(200).json(result);
     } catch (error) {
       console.error('❌ Error in getSalesShareByType:', error);

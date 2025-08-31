@@ -7,12 +7,14 @@ O projeto está configurado para verificação ortográfica em **português bras
 ## 🛠️ Configuração
 
 ### Extensões VS Code Necessárias
+
 - `streetsidesoftware.code-spell-checker` - Verificador ortográfico principal
 - `streetsidesoftware.code-spell-checker-portuguese-brazilian` - Dicionário PT-BR
 
 ### Arquivos de Configuração
 
 #### `.vscode/settings.json`
+
 ```json
 {
   "cSpell.enabled": true,
@@ -21,6 +23,7 @@ O projeto está configurado para verificação ortográfica em **português bras
 ```
 
 #### `cspell.json` (Raiz do projeto)
+
 ```json
 {
   "language": "en,pt_BR",
@@ -44,6 +47,7 @@ npx cspell README.md
 ## 📚 Dicionários Customizados
 
 ### Palavras Técnicas Adicionadas
+
 - **Projeto**: EasyImob, UNIVALI, analytics
 - **Português**: imovel, pagamento, vendas, apartamento, galpao
 - **Tech Stack**: mysql, postgresql, typescript, eslint, vitest
@@ -52,30 +56,31 @@ npx cspell README.md
 ### Adicionar Novas Palavras
 
 #### Método 1: Via cspell.json
+
 ```json
 {
-  "words": [
-    "nova-palavra",
-    "outro-termo"
-  ]
+  "words": ["nova-palavra", "outro-termo"]
 }
 ```
 
 #### Método 2: Via comentário no código
+
 ```typescript
 // cspell:words minhapalavra outrotermos
-const minhapalavra = "exemplo";
+const minhapalavra = 'exemplo';
 ```
 
 #### Método 3: Ignorar linha específica
+
 ```typescript
 // cspell:disable-next-line
-const termIncorreto = "naoexiste";
+const termIncorreto = 'naoexiste';
 ```
 
 ## 🚫 Arquivos Ignorados
 
 O spell checker **não verifica**:
+
 - `node_modules/`
 - `dist/`
 - `coverage/`
@@ -95,6 +100,7 @@ O spell checker **não verifica**:
 ## 🔧 Troubleshooting
 
 ### Falsos Positivos
+
 Se uma palavra técnica válida está sendo marcada como erro:
 
 1. **Adicione ao cspell.json** (recomendado para termos do projeto)
@@ -102,6 +108,7 @@ Se uma palavra técnica válida está sendo marcada como erro:
 3. **Configure no VS Code** (preferências pessoais)
 
 ### Exemplo de Falso Positivo
+
 ```typescript
 // ANTES: 'pagamento' sendo marcado como erro
 const pagamento = data.valor_do_pagamento;
@@ -111,13 +118,16 @@ const pagamento = data.valor_do_pagamento;
 ```
 
 ### Configuração Regional
+
 O projeto usa:
+
 - **Inglês americano** (`en_US`) - Termos técnicos
 - **Português brasileiro** (`pt_BR`) - Documentação e código
 
 ## 📈 Integração CI/CD
 
 Adicione ao pipeline de qualidade:
+
 ```yaml
 # .github/workflows/quality.yml
 - name: Spell Check
@@ -135,6 +145,7 @@ Adicione ao pipeline de qualidade:
 ## 📝 Exemplos de Uso
 
 ### Código Misto (Recomendado)
+
 ```typescript
 /**
  * Serviço para análise de vendas imobiliárias
@@ -151,10 +162,12 @@ export class AnalyticsService {
 ```
 
 ### Documentação Bilíngue
+
 ```markdown
 # Analytics Endpoints
 
 ## GET /analytics/payments-by-property
+
 Retorna total de pagamentos agrupados por imóvel.
 
 Returns payment totals grouped by property.

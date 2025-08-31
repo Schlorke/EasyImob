@@ -3,7 +3,7 @@
     "target": "ES2022",
     "module": "commonjs",
     "lib": ["ES2022"],
-    "outDir": "./dist",
+    "outDir": "EasyImob/dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
@@ -26,5 +26,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "exclude": ["node_modules", "EasyImob/dist", "tests"]
 }

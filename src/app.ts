@@ -9,10 +9,12 @@ export const createApp = (): Application => {
   const app = express();
 
   // Middleware configuration
-  app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? false : true,
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: process.env.NODE_ENV === 'production' ? false : true,
+      credentials: true,
+    })
+  );
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -37,7 +39,7 @@ export const createApp = (): Application => {
   // Global error handler
   app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error('💥 Global error handler:', error);
-    
+
     res.status(500).json({
       error: 'Internal server error',
       message: process.env.NODE_ENV === 'production' ? 'Something went wrong' : error.message,

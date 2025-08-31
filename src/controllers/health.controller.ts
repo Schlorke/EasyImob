@@ -16,7 +16,7 @@ export class HealthController {
     try {
       // Test database connectivity
       const isDbHealthy = await this.paymentsRepository.healthCheck();
-      
+
       if (!isDbHealthy) {
         res.status(503).json({ status: 'ok' } as HealthResponse);
         return;
@@ -33,6 +33,8 @@ export class HealthController {
 /**
  * Factory function for creating controller instance
  */
-export const createHealthController = (paymentsRepository: PaymentsRepository): HealthController => {
+export const createHealthController = (
+  paymentsRepository: PaymentsRepository
+): HealthController => {
   return new HealthController(paymentsRepository);
 };

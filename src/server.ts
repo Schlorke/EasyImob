@@ -32,10 +32,10 @@ async function startServer(): Promise<void> {
     // Graceful shutdown
     const gracefulShutdown = async (signal: string): Promise<void> => {
       console.log(`\n🛑 Received ${signal}. Starting graceful shutdown...`);
-      
+
       server.close(async () => {
         console.log('✅ HTTP server closed');
-        
+
         try {
           await closeConnection();
           console.log('✅ Database connection closed');
@@ -56,7 +56,6 @@ async function startServer(): Promise<void> {
     // Handle shutdown signals
     process.on('SIGTERM', () => void gracefulShutdown('SIGTERM'));
     process.on('SIGINT', () => void gracefulShutdown('SIGINT'));
-
   } catch (error) {
     console.error('💥 Failed to start server:', error);
     process.exit(1);
