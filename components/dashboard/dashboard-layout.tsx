@@ -1,23 +1,30 @@
-import type React from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Footer } from "@/components/layout/footer"
+'use client';
+
+import { useState } from 'react';
+import type React from 'react';
+import { Header } from '@/components/layout/header';
+import { Sidebar } from '@/components/layout/sidebar';
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="h-screen flex flex-col bg-[#F8F9FA]">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+        <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
         <main className="flex-1 overflow-y-auto">
-          <div className="p-8 max-w-7xl mx-auto">{children}</div>
+          <div className="p-8">{children}</div>
         </main>
       </div>
-      <Footer />
     </div>
-  )
+  );
 }

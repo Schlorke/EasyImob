@@ -205,6 +205,8 @@ describe('Analytics Routes Integration Tests', () => {
 
       expect(response.body).toHaveProperty('error');
       expect(response.body.error).toBe('Route not found');
+      expect(response.body).toHaveProperty('message');
+      expect(response.body.message).toBe('The requested endpoint does not exist');
     });
   });
 });

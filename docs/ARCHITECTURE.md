@@ -56,11 +56,11 @@
 \`\`\`typescript
 // Responsabilidade: HTTP Request/Response handling
 export class AnalyticsController {
-  async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
-    const data = await this.repository.getAllPaymentsData();
-    const result = this.service.calculatePaymentsByProperty(data);
-    res.json(result);
-  }
+async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
+const data = await this.repository.getAllPaymentsData();
+const result = this.service.calculatePaymentsByProperty(data);
+res.json(result);
+}
 }
 \`\`\`
 
@@ -69,14 +69,14 @@ export class AnalyticsController {
 \`\`\`typescript
 // Responsabilidade: Pure functional programming
 export class AnalyticsService {
-  calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
-    return data.reduce(
-      (acc, payment) => {
-        // Functional aggregation logic
-      },
-      {} as Record<number, PaymentsByPropertyItem>
-    );
-  }
+calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
+return data.reduce(
+(acc, payment) => {
+// Functional aggregation logic
+},
+{} as Record<number, PaymentsByPropertyItem>
+);
+}
 }
 \`\`\`
 
@@ -85,16 +85,15 @@ export class AnalyticsService {
 \`\`\`typescript
 // Responsabilidade: Single JOIN query, no WHERE/GROUP BY
 export class PaymentsRepository {
-  async getAllPaymentsData(): Promise<PaymentData[]> {
-    const query = `
-      SELECT vp.id_venda, vp.data_do_pagamento, vp.valor_do_pagamento,
+async getAllPaymentsData(): Promise<PaymentData[]> {
+const query = `       SELECT vp.id_venda, vp.data_do_pagamento, vp.valor_do_pagamento,
              vp.codigo_imovel, i.descricao_imovel, ti.nome as tipo_imovel
       FROM venda_pagamento vp
       JOIN imovel i ON vp.codigo_imovel = i.codigo_imovel
       JOIN tipo_imovel ti ON i.id_tipo = ti.id_tipo
     `;
-    // Return raw data for in-memory processing
-  }
+// Return raw data for in-memory processing
+}
 }
 \`\`\`
 
@@ -102,14 +101,14 @@ export class PaymentsRepository {
 
 \`\`\`mermaid
 graph TD
-    A[HTTP Request] --> B[Controller]
-    B --> C[Repository]
-    C --> D[Database JOIN]
-    D --> E[Raw Data]
-    E --> F[Service]
-    F --> G[Functional Processing]
-    G --> H[Aggregated Data]
-    H --> I[JSON Response]
+A[HTTP Request] --> B[Controller]
+B --> C[Repository]
+C --> D[Database JOIN]
+D --> E[Raw Data]
+E --> F[Service]
+F --> G[Functional Processing]
+G --> H[Aggregated Data]
+H --> I[JSON Response]
 \`\`\`
 
 ### Exemplo Completo: `/analytics/payments-by-property`
@@ -134,10 +133,10 @@ graph TD
 
 \`\`\`typescript
 export const createAnalyticsController = (
-  repository: PaymentsRepository,
-  service: AnalyticsService
+repository: PaymentsRepository,
+service: AnalyticsService
 ): AnalyticsController => {
-  return new AnalyticsController(repository, service);
+return new AnalyticsController(repository, service);
 };
 \`\`\`
 
@@ -146,13 +145,13 @@ export const createAnalyticsController = (
 \`\`\`typescript
 // Pure functions - sem side effects
 const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
-  Object.entries(countByType)
-    .map(([tipo_imovel, quantidade]) => ({
-      tipo_imovel,
-      percentual: roundToTwoDecimals((quantidade / total) * 100),
-      quantidade,
-    }))
-    .sort((a, b) => b.percentual - a.percentual);
+Object.entries(countByType)
+.map(([tipo_imovel, quantidade]) => ({
+tipo_imovel,
+percentual: roundToTwoDecimals((quantidade / total) \* 100),
+quantidade,
+}))
+.sort((a, b) => b.percentual - a.percentual);
 \`\`\`
 
 ### 4. Immutable Data Structures
@@ -208,17 +207,17 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
 \`\`\`typescript
 // 1. Adicionar método no AnalyticsService
 calculateNewMetric(data: PaymentData[]): NewMetricItem[] {
-  return data
-    .filter(/* criteria */)
-    .map(/* transformation */)
-    .reduce(/* aggregation */, {});
+return data
+.filter(/_ criteria _/)
+.map(/_ transformation _/)
+.reduce(/_ aggregation _/, {});
 }
 
 // 2. Adicionar endpoint no AnalyticsController
 async getNewMetric(req: Request, res: Response): Promise<void> {
-  const data = await this.repository.getAllPaymentsData();
-  const result = this.service.calculateNewMetric(data);
-  res.json(result);
+const data = await this.repository.getAllPaymentsData();
+const result = this.service.calculateNewMetric(data);
+res.json(result);
 }
 
 // 3. Registrar rota
@@ -230,15 +229,13 @@ router.get('/analytics/new-metric', controller.getNewMetric);
 \`\`\`typescript
 // 1. Estender PaymentData interface
 export interface ExtendedPaymentData extends PaymentData {
-  novo_campo: string;
+novo_campo: string;
 }
 
 // 2. Atualizar query SQL
-const query = `
-  SELECT /* existing columns */, nova_tabela.novo_campo
+const query = `  SELECT /* existing columns */, nova_tabela.novo_campo
   FROM /* existing joins */
-  JOIN nova_tabela ON /* condition */
-`;
+  JOIN nova_tabela ON /* condition */`;
 \`\`\`
 
 ## 🧪 Estratégia de Testes
@@ -265,4 +262,4 @@ const query = `
 - **Dependency Injection**: SOLID Principles
 - **RESTful APIs**: Roy Fielding
 - **TypeScript Best Practices**: Microsoft Documentation
-\`\`\``
+  \`\`\``

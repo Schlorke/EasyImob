@@ -75,19 +75,19 @@ development-guide.md
 \`\`\`typescript
 // ✅ SEMPRE usar tipos explícitos
 function calculateTotal(payments: PaymentData[]): number {
-  return payments.reduce((sum, payment) => sum + payment.valor_do_pagamento, 0);
+return payments.reduce((sum, payment) => sum + payment.valor_do_pagamento, 0);
 }
 
 // ✅ Interfaces para contratos
 interface ServiceInterface {
-  calculate(data: PaymentData[]): AnalyticsResult;
+calculate(data: PaymentData[]): AnalyticsResult;
 }
 
 // ✅ Enums para constantes
 enum PaymentStatus {
-  PENDING = 'pending',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled',
+PENDING = 'pending',
+COMPLETED = 'completed',
+CANCELLED = 'cancelled',
 }
 
 // ❌ NUNCA usar any
@@ -95,7 +95,7 @@ function badFunction(data: any): any {} // FORBIDDEN
 
 // ✅ Usar unknown quando tipo é incerto
 function safeFunction(data: unknown): ParsedData {
-  // Type guards aqui
+// Type guards aqui
 }
 \`\`\`
 
@@ -106,32 +106,32 @@ function safeFunction(data: unknown): ParsedData {
 \`\`\`typescript
 // ✅ CORRETO - Functional Programming
 class AnalyticsService {
-  calculateMetrics(data: PaymentData[]): MetricsResult {
-    return data
-      .filter((payment) => payment.valor_do_pagamento > 0) // Filtragem pura
-      .map((payment) => this.transformPayment(payment)) // Transformação pura
-      .reduce(this.aggregateData, {}); // Agregação pura
-  }
+calculateMetrics(data: PaymentData[]): MetricsResult {
+return data
+.filter((payment) => payment.valor_do_pagamento > 0) // Filtragem pura
+.map((payment) => this.transformPayment(payment)) // Transformação pura
+.reduce(this.aggregateData, {}); // Agregação pura
+}
 
-  private transformPayment(payment: PaymentData): TransformedPayment {
-    // Função pura - mesmo input, mesmo output
-    return {
-      ...payment,
-      formatted_value: this.formatCurrency(payment.valor_do_pagamento),
-    };
-  }
+private transformPayment(payment: PaymentData): TransformedPayment {
+// Função pura - mesmo input, mesmo output
+return {
+...payment,
+formatted_value: this.formatCurrency(payment.valor_do_pagamento),
+};
+}
 }
 
 // ❌ INCORRETO - Imperativo/Mutável
 class BadService {
-  calculateMetrics(data: PaymentData[]): MetricsResult {
-    let result = {};
-    for (let i = 0; i < data.length; i++) {
-      // FORBIDDEN
-      result[data[i].id] = data[i].value; // FORBIDDEN - mutação
-    }
-    return result;
-  }
+calculateMetrics(data: PaymentData[]): MetricsResult {
+let result = {};
+for (let i = 0; i < data.length; i++) {
+// FORBIDDEN
+result[data[i].id] = data[i].value; // FORBIDDEN - mutação
+}
+return result;
+}
 }
 \`\`\`
 
@@ -140,30 +140,28 @@ class BadService {
 \`\`\`typescript
 // ✅ CORRETO - Apenas JOIN, sem agregações
 class PaymentsRepository {
-  async getAllPaymentsData(): Promise<PaymentData[]> {
-    const query = `
-      SELECT vp.id_venda, vp.data_do_pagamento, vp.valor_do_pagamento,
+async getAllPaymentsData(): Promise<PaymentData[]> {
+const query = `       SELECT vp.id_venda, vp.data_do_pagamento, vp.valor_do_pagamento,
              vp.codigo_imovel, i.descricao_imovel, ti.nome as tipo_imovel
       FROM venda_pagamento vp
       JOIN imovel i ON vp.codigo_imovel = i.codigo_imovel
       JOIN tipo_imovel ti ON i.id_tipo = ti.id_tipo
       ORDER BY vp.data_do_pagamento
     `;
-    return this.executeQuery(query);
-  }
+return this.executeQuery(query);
+}
 }
 
 // ❌ INCORRETO - Agregações no SQL
 class BadRepository {
-  async getAggregatedData(): Promise<any> {
-    const query = `
-      SELECT codigo_imovel, SUM(valor_do_pagamento) as total  -- FORBIDDEN
+async getAggregatedData(): Promise<any> {
+const query = `       SELECT codigo_imovel, SUM(valor_do_pagamento) as total  -- FORBIDDEN
       FROM venda_pagamento
       WHERE data_do_pagamento > '2024-01-01'                  -- FORBIDDEN
       GROUP BY codigo_imovel                                  -- FORBIDDEN
     `;
-    return this.executeQuery(query);
-  }
+return this.executeQuery(query);
+}
 }
 \`\`\`
 
@@ -172,15 +170,15 @@ class BadRepository {
 \`\`\`typescript
 // ✅ CORRETO - Delegar para service
 export class AnalyticsController {
-  constructor(
-    private repository: PaymentsRepository,
-    private service: AnalyticsService
-  ) {}
+constructor(
+private repository: PaymentsRepository,
+private service: AnalyticsService
+) {}
 
-  async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
-    try {
-      // 1. Buscar dados brutos
-      const rawData = await this.repository.getAllPaymentsData();
+async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
+try {
+// 1. Buscar dados brutos
+const rawData = await this.repository.getAllPaymentsData();
 
       // 2. Processar com service (functional)
       const result = this.service.calculatePaymentsByProperty(rawData);
@@ -191,13 +189,14 @@ export class AnalyticsController {
       console.error('Error in getPaymentsByProperty:', error);
       res.status(500).json([]);
     }
-  }
+
+}
 }
 
 // ❌ INCORRETO - Lógica no controller
 export class BadController {
-  async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
-    const data = await this.repository.getAllPaymentsData();
+async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
+const data = await this.repository.getAllPaymentsData();
 
     // FORBIDDEN - Lógica de negócio no controller
     let grouped = {};
@@ -209,7 +208,8 @@ export class BadController {
     }
 
     res.json(grouped);
-  }
+
+}
 }
 \`\`\`
 
@@ -220,28 +220,28 @@ export class BadController {
 \`\`\`typescript
 // ✅ Teste focado em lógica pura
 describe('AnalyticsService', () => {
-  let service: AnalyticsService;
+let service: AnalyticsService;
 
-  beforeEach(() => {
-    service = new AnalyticsService();
-  });
+beforeEach(() => {
+service = new AnalyticsService();
+});
 
-  it('should calculate payments by property correctly', () => {
-    // Arrange - dados sintéticos controlados
-    const mockData: PaymentData[] = [
-      {
-        id_venda: 1,
-        codigo_imovel: 101,
-        valor_do_pagamento: 1500.0,
-        // ... outros campos
-      },
-      {
-        id_venda: 2,
-        codigo_imovel: 101,
-        valor_do_pagamento: 1500.0,
-        // ... outros campos
-      },
-    ];
+it('should calculate payments by property correctly', () => {
+// Arrange - dados sintéticos controlados
+const mockData: PaymentData[] = [
+{
+id_venda: 1,
+codigo_imovel: 101,
+valor_do_pagamento: 1500.0,
+// ... outros campos
+},
+{
+id_venda: 2,
+codigo_imovel: 101,
+valor_do_pagamento: 1500.0,
+// ... outros campos
+},
+];
 
     // Act - executar função pura
     const result = service.calculatePaymentsByProperty(mockData);
@@ -250,7 +250,8 @@ describe('AnalyticsService', () => {
     expect(result).toHaveLength(1);
     expect(result[0].codigo_imovel).toBe(101);
     expect(result[0].total_pagamentos).toBe(3000.0);
-  });
+
+});
 });
 \`\`\`
 
@@ -259,20 +260,21 @@ describe('AnalyticsService', () => {
 \`\`\`typescript
 // ✅ Teste end-to-end com mocks
 describe('Analytics Routes', () => {
-  const app = createApp();
+const app = createApp();
 
-  beforeEach(() => {
-    // Mock repository para dados controlados
-    vi.mocked(PaymentsRepository.prototype.getAllPaymentsData).mockResolvedValue(mockPaymentData);
-  });
+beforeEach(() => {
+// Mock repository para dados controlados
+vi.mocked(PaymentsRepository.prototype.getAllPaymentsData).mockResolvedValue(mockPaymentData);
+});
 
-  it('should return payments by property', async () => {
-    const response = await request(app).get('/analytics/payments-by-property').expect(200);
+it('should return payments by property', async () => {
+const response = await request(app).get('/analytics/payments-by-property').expect(200);
 
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body[0]).toHaveProperty('codigo_imovel');
     expect(response.body[0]).toHaveProperty('total_pagamentos');
-  });
+
+});
 });
 \`\`\`
 
@@ -281,6 +283,7 @@ describe('Analytics Routes', () => {
 ### 1. Análise de Requisitos
 
 \`\`\`markdown
+
 ## Para implementar nova feature:
 
 1. **Entender o requisito**
@@ -295,62 +298,63 @@ describe('Analytics Routes', () => {
 
 3. **Implementar seguindo as camadas**
    - Types → Repository → Service → Controller → Routes
-\`\`\`
+     \`\`\`
 
 ### 2. Implementação Step-by-Step
 
 \`\`\`typescript
 // STEP 1: Definir tipos em src/types/index.ts
 export interface NewMetricItem {
-  property_id: number;
-  metric_value: number;
-  calculated_at: string;
+property_id: number;
+metric_value: number;
+calculated_at: string;
 }
 
 export interface NewMetricResponse {
-  data: NewMetricItem[];
-  total: number;
+data: NewMetricItem[];
+total: number;
 }
 
 // STEP 2: Implementar lógica no service
 class AnalyticsService {
-  calculateNewMetric(data: PaymentData[]): NewMetricResponse {
-    const processed = data
-      .filter(/* critério específico */)
-      .map(/* transformação necessária */)
-      .reduce(/* agregação funcional */, []);
+calculateNewMetric(data: PaymentData[]): NewMetricResponse {
+const processed = data
+.filter(/_ critério específico _/)
+.map(/_ transformação necessária _/)
+.reduce(/_ agregação funcional _/, []);
 
     return {
       data: processed,
       total: processed.length
     };
-  }
+
+}
 }
 
 // STEP 3: Adicionar método no controller
 class AnalyticsController {
-  async getNewMetric(req: Request, res: Response): Promise<void> {
-    try {
-      const rawData = await this.repository.getAllPaymentsData();
-      const result = this.service.calculateNewMetric(rawData);
-      res.status(200).json(result);
-    } catch (error) {
-      console.error('Error in getNewMetric:', error);
-      res.status(500).json({ data: [], total: 0 });
-    }
-  }
+async getNewMetric(req: Request, res: Response): Promise<void> {
+try {
+const rawData = await this.repository.getAllPaymentsData();
+const result = this.service.calculateNewMetric(rawData);
+res.status(200).json(result);
+} catch (error) {
+console.error('Error in getNewMetric:', error);
+res.status(500).json({ data: [], total: 0 });
+}
+}
 }
 
 // STEP 4: Registrar rota
 router.get('/analytics/new-metric', (req, res) => {
-  void analyticsController.getNewMetric(req, res);
+void analyticsController.getNewMetric(req, res);
 });
 
 // STEP 5: Escrever testes
 describe('calculateNewMetric', () => {
-  it('should process data correctly', () => {
-    // Arrange, Act, Assert
-  });
+it('should process data correctly', () => {
+// Arrange, Act, Assert
+});
 });
 \`\`\`
 
@@ -367,7 +371,7 @@ data.push(newItem); // Use [...data, newItem]
 object.field = value; // Use { ...object, field: value }
 
 // ❌ Agregações SQL
-SELECT COUNT(*), SUM() FROM table GROUP BY field;
+SELECT COUNT(\*), SUM() FROM table GROUP BY field;
 
 // ❌ Lógica de negócio em controllers
 if (business_logic) { } // Move to service
@@ -384,9 +388,9 @@ console.log(data); // Use structured logging
 \`\`\`typescript
 // ✅ Programação funcional
 const result = data
-  .filter((item) => item.isValid)
-  .map((item) => transform(item))
-  .reduce(aggregate, initialValue);
+.filter((item) => item.isValid)
+.map((item) => transform(item))
+.reduce(aggregate, initialValue);
 
 // ✅ Imutabilidade
 const newArray = [...oldArray, newItem];
@@ -394,7 +398,7 @@ const newObject = { ...oldObject, newField: value };
 
 // ✅ Tipos explícitos
 function process(data: PaymentData[]): ProcessedResult {
-  return data.map((item) => ({ ...item, processed: true }));
+return data.map((item) => ({ ...item, processed: true }));
 }
 
 // ✅ Separação de responsabilidades
@@ -410,16 +414,16 @@ function process(data: PaymentData[]): ProcessedResult {
 \`\`\`typescript
 // ✅ Logs informativos com contexto
 console.log('📊 Processing analytics data', {
-  recordCount: data.length,
-  operation: 'calculatePaymentsByProperty',
-  timestamp: new Date().toISOString(),
+recordCount: data.length,
+operation: 'calculatePaymentsByProperty',
+timestamp: new Date().toISOString(),
 });
 
 // ✅ Error logging com stack trace
 console.error('❌ Error in analytics calculation:', {
-  error: error.message,
-  stack: error.stack,
-  input: { dataLength: data.length },
+error: error.message,
+stack: error.stack,
+input: { dataLength: data.length },
 });
 \`\`\`
 
@@ -432,8 +436,8 @@ const result = this.heavyCalculation(data);
 const endTime = performance.now();
 
 console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
-  inputSize: data.length,
-  outputSize: result.length,
+inputSize: data.length,
+outputSize: result.length,
 });
 \`\`\`
 

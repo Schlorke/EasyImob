@@ -87,8 +87,8 @@ Deploy: Docker-ready, environment agnostic
 **Processamento**:
 \`\`\`typescript
 data.reduce((acc, payment) => {
-  acc[payment.codigo_imovel] += payment.valor_do_pagamento;
-  return acc;
+acc[payment.codigo_imovel] += payment.valor_do_pagamento;
+return acc;
 }, {});
 \`\`\`
 
@@ -101,8 +101,8 @@ data.reduce((acc, payment) => {
 **Processamento**:
 \`\`\`typescript
 data
-  .map(payment => formatToMonthYear(payment.data_do_pagamento))
-  .reduce(aggregateByMonth, {});
+.map(payment => formatToMonthYear(payment.data_do_pagamento))
+.reduce(aggregateByMonth, {});
 \`\`\``
 
 **Valor**: Identifica sazonalidade e trends de mercado

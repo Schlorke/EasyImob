@@ -128,28 +128,28 @@ function process(data: any): any { }
 \`\`\``typescript
 // Step 1: Define types in src/types/index.ts
 interface NewAnalyticsResult {
-  metric_name: string;
-  value: number;
-  calculated_at: string;
+metric_name: string;
+value: number;
+calculated_at: string;
 }
 
 // Step 2: Add service method (functional only)
 class AnalyticsService {
-  calculateNewMetric(data: PaymentData[]): NewAnalyticsResult[] {
-    return data
-      .filter(/* business logic */)
-      .map(/* transformation */)
-      .reduce(/* aggregation */, []);
-  }
+calculateNewMetric(data: PaymentData[]): NewAnalyticsResult[] {
+return data
+.filter(/_ business logic _/)
+.map(/_ transformation _/)
+.reduce(/_ aggregation _/, []);
+}
 }
 
 // Step 3: Add controller method (HTTP only)
 class AnalyticsController {
-  async getNewMetric(req: Request, res: Response): Promise<void> {
-    const data = await this.repository.getAllPaymentsData(); // Same JOIN
-    const result = this.service.calculateNewMetric(data); // Functional processing
-    res.json(result);
-  }
+async getNewMetric(req: Request, res: Response): Promise<void> {
+const data = await this.repository.getAllPaymentsData(); // Same JOIN
+const result = this.service.calculateNewMetric(data); // Functional processing
+res.json(result);
+}
 }
 
 // Step 4: Register route
@@ -160,13 +160,13 @@ router.get('/analytics/new-metric', controller.getNewMetric);
 
 \`\`\`typescript
 describe('calculateNewMetric', () => {
-  it('should process data correctly using functional programming', () => {
-    const mockData: PaymentData[] = [
-      /* test data */
-    ];
-    const result = service.calculateNewMetric(mockData);
-    expect(result).toEqual(/* expected result */);
-  });
+it('should process data correctly using functional programming', () => {
+const mockData: PaymentData[] = [
+/* test data */
+];
+const result = service.calculateNewMetric(mockData);
+expect(result).toEqual(/_ expected result _/);
+});
 });
 \`\`\`
 
@@ -210,13 +210,13 @@ Since all processing is in-memory (HOW VII requirement):
 \`\`\`typescript
 // ✅ Efficient functional pattern
 const result = data
-  .filter((payment) => payment.valor_do_pagamento > minValue) // Early filtering
-  .map((payment) => transformPayment(payment)) // Transform
-  .reduce(aggregateLogic, initialValue); // Final aggregation
+.filter((payment) => payment.valor_do_pagamento > minValue) // Early filtering
+.map((payment) => transformPayment(payment)) // Transform
+.reduce(aggregateLogic, initialValue); // Final aggregation
 
 // ❌ Inefficient nested processing
 const result = data.map(
-  (payment) => data.filter((p) => p.codigo_imovel === payment.codigo_imovel) // Nested loop
+(payment) => data.filter((p) => p.codigo_imovel === payment.codigo_imovel) // Nested loop
 );
 \`\`\`
 
@@ -269,7 +269,7 @@ message: process.env.NODE_ENV === 'development' ? error.message : 'Processing fa
 // Instead of suggesting:
 let total = 0;
 for (const payment of payments) {
-  total += payment.value;
+total += payment.value;
 }
 
 // Suggest:
@@ -282,7 +282,7 @@ const total = payments.reduce((sum, payment) => sum + payment.value, 0);
 // Instead of suggesting:
 const result = [];
 for (const payment of payments) {
-  result.push({ ...payment, processed: true });
+result.push({ ...payment, processed: true });
 }
 
 // Suggest:
@@ -295,9 +295,9 @@ const result = payments.map(payment => ({ ...payment, processed: true }));
 // Instead of suggesting:
 const valid = [];
 for (const payment of payments) {
-  if (payment.value > 0) {
-    valid.push(payment);
-  }
+if (payment.value > 0) {
+valid.push(payment);
+}
 }
 
 // Suggest:
