@@ -10,6 +10,8 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
+    "spell:check": "cspell '**/*.{ts,js,md,json}'",
+    "spell:check-silent": "cspell '**/*.{ts,js,md,json}' --silent",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "migrate": "npm run build && node dist/db/migrate.js",
@@ -39,7 +41,8 @@
     "typescript": "^5.4.5",
     "vitest": "^1.6.0",
     "supertest": "^7.0.0",
-    "@types/supertest": "^6.0.2"
+    "@types/supertest": "^6.0.2",
+    "cspell": "^8.8.0"
   },
   "engines": {
     "node": ">=20.0.0"

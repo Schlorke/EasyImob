@@ -4,8 +4,25 @@
 
 Backend HTTP/REST completo desenvolvido para o Hands On Work VII (UNIVALI), implementando análises de vendas imobiliárias com programação funcional e consultas JOIN.
 
+## 🎯 Duas Implementações
+
+Este projeto oferece **duas implementações completas** com **100% de fidelidade de API**:
+
+| 🎯 | **Caminho A (Oficial)** | **Caminho B (Moderno)** |
+|----|-------------------------|-------------------------|
+| **Database** | MySQL 8.0+ | PostgreSQL 15+ (Supabase) |
+| **ORM/Driver** | mysql2 (raw SQL) | Drizzle ORM + pg |
+| **Branch** | `master` | `feature/supabase-drizzle` |
+| **Comando** | `npm run dev` | `npm run dev:drizzle` |
+| **Documentação** | `README.md` | `README-DRIZZLE.md` |
+
+### 🔄 Escolha Sua Stack
+- **Caminho A**: Para avaliação oficial, compatibilidade máxima
+- **Caminho B**: Para desenvolvimento moderno, type safety, Supabase
+
 ## 📋 Sumário
 
+- [Duas Implementações](#-duas-implementações)
 - [Características](#-características)
 - [Requisitos](#-requisitos)
 - [Instalação](#-instalação)
@@ -31,6 +48,7 @@ Backend HTTP/REST completo desenvolvido para o Hands On Work VII (UNIVALI), impl
 - **Dependency Injection** para testabilidade
 - **Tratamento de erros** robusto
 - **Graceful shutdown** do servidor
+- **Spell checking** PT-BR + EN integrado
 
 ### 📊 Analytics Endpoints
 1. `GET /analytics/payments-by-property` - Total acumulado por imóvel
@@ -254,8 +272,11 @@ npm test
 # Com coverage
 npm run test:coverage
 
-# Lint
+# Lint (código)
 npm run lint
+
+# Spell check (português + inglês)
+npm run spell:check
 ```
 
 ### Cobertura
@@ -333,6 +354,7 @@ npm start            # Servidor produção
 npm run lint         # Verificar código
 npm run lint:fix     # Corrigir lint
 npm run format       # Formatar código
+npm run spell:check  # Verificar ortografia (PT-BR + EN)
 npm test             # Executar testes
 
 # Database

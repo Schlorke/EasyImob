@@ -1,7 +1,7 @@
 {
-  "cSpell.enabled": true,
-  "cSpell.language": "en,pt_BR",
-  "cSpell.words": [
+  "version": "0.2",
+  "language": "en,pt_BR",
+  "words": [
     "EasyImob",
     "UNIVALI",
     "analytics",
@@ -74,48 +74,54 @@
     "param",
     "params",
     "query",
-    "params",
     "auth",
     "jwt",
     "bcrypt",
     "hash",
-    "uuid"
+    "uuid",
+    "funcionais",
+    "programacao",
+    "funcional",
+    "imutavel",
+    "imutaveis",
+    "monetario",
+    "quantitativo",
+    "percentual",
+    "acumulado",
+    "agrupamento",
+    "ordenacao",
+    "formatacao"
   ],
-  "cSpell.ignorePaths": [
-    "node_modules",
-    "dist",
-    "coverage",
-    ".git",
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "coverage/**",
+    ".git/**",
     "*.log",
     "*.min.js",
     "package-lock.json",
-    "yarn.lock"
+    "yarn.lock",
+    "evidences/**"
   ],
-  "cSpell.flagWords": [],
-  "cSpell.enableFiletypes": [
+  "enabledLanguageIds": [
     "typescript",
     "javascript",
     "json",
     "markdown",
     "sql",
     "yaml",
-    "yml"
+    "yml",
+    "text"
   ],
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.suggest.autoImports": true,
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/.git": true,
-    "**/coverage": true
-  },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/coverage": true
-  }
+  "flagWords": [],
+  "allowCompoundWords": true,
+  "dictionaries": [
+    "en_US",
+    "pt_BR",
+    "typescript",
+    "node",
+    "npm",
+    "software-terms",
+    "companies"
+  ]
 }
