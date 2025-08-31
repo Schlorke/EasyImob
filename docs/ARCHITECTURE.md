@@ -22,7 +22,7 @@
 ## 🎨 Princípios Arquiteturais
 
 ### 1. Clean Architecture (Hexagonal)
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │             Controllers                 │ ← HTTP Layer
 ├─────────────────────────────────────────┤
@@ -32,7 +32,7 @@
 ├─────────────────────────────────────────┤
 │             Database                    │ ← Infrastructure
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### 2. Separation of Concerns
 - **Controllers**: Apenas HTTP handlers
@@ -48,7 +48,7 @@
 ## 📁 Estrutura de Camadas
 
 ### 🌐 Presentation Layer (`src/controllers/`)
-```typescript
+\`\`\`typescript
 // Responsabilidade: HTTP Request/Response handling
 export class AnalyticsController {
   async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
@@ -57,10 +57,10 @@ export class AnalyticsController {
     res.json(result);
   }
 }
-```
+\`\`\`
 
 ### 🧠 Business Layer (`src/services/`)
-```typescript
+\`\`\`typescript
 // Responsabilidade: Pure functional programming
 export class AnalyticsService {
   calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
@@ -69,10 +69,10 @@ export class AnalyticsService {
     }, {} as Record<number, PaymentsByPropertyItem>);
   }
 }
-```
+\`\`\`
 
 ### 💾 Data Layer (`src/repositories/`)
-```typescript
+\`\`\`typescript
 // Responsabilidade: Single JOIN query, no WHERE/GROUP BY
 export class PaymentsRepository {
   async getAllPaymentsData(): Promise<PaymentData[]> {
@@ -86,11 +86,11 @@ export class PaymentsRepository {
     // Return raw data for in-memory processing
   }
 }
-```
+\`\`\`
 
 ## 🔄 Fluxo de Dados
 
-```mermaid
+\`\`\`mermaid
 graph TD
     A[HTTP Request] --> B[Controller]
     B --> C[Repository]
@@ -100,7 +100,7 @@ graph TD
     F --> G[Functional Processing]
     G --> H[Aggregated Data]
     H --> I[JSON Response]
-```
+\`\`\`
 
 ### Exemplo Completo: `/analytics/payments-by-property`
 
@@ -120,17 +120,17 @@ graph TD
 - Interface consistente
 
 ### 2. Factory Pattern
-```typescript
+\`\`\`typescript
 export const createAnalyticsController = (
   repository: PaymentsRepository,
   service: AnalyticsService
 ): AnalyticsController => {
   return new AnalyticsController(repository, service);
 };
-```
+\`\`\`
 
 ### 3. Functional Programming
-```typescript
+\`\`\`typescript
 // Pure functions - sem side effects
 const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
   Object.entries(countByType)
@@ -140,7 +140,7 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
       quantidade,
     }))
     .sort((a, b) => b.percentual - a.percentual);
-```
+\`\`\`
 
 ### 4. Immutable Data Structures
 - Todas as transformações retornam novos objetos
@@ -186,7 +186,7 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
 ## 🔍 Pontos de Extensão
 
 ### Novos Analytics
-```typescript
+\`\`\`typescript
 // 1. Adicionar método no AnalyticsService
 calculateNewMetric(data: PaymentData[]): NewMetricItem[] {
   return data
@@ -204,10 +204,10 @@ async getNewMetric(req: Request, res: Response): Promise<void> {
 
 // 3. Registrar rota
 router.get('/analytics/new-metric', controller.getNewMetric);
-```
+\`\`\`
 
 ### Novos Dados
-```typescript
+\`\`\`typescript
 // 1. Estender PaymentData interface
 export interface ExtendedPaymentData extends PaymentData {
   novo_campo: string;
@@ -219,7 +219,7 @@ const query = `
   FROM /* existing joins */
   JOIN nova_tabela ON /* condition */
 `;
-```
+\`\`\`
 
 ## 🧪 Estratégia de Testes
 

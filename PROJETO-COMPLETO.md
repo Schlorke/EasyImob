@@ -50,12 +50,12 @@
 
 ### 🥇 Caminho A (Oficial - MySQL)
 
-```bash
+\`\`\`bash
 git checkout master
 npm install
 mysql -u root -p < db.sql
 npm run dev
-```
+\`\`\`
 
 **Stack:**
 
@@ -73,13 +73,13 @@ npm run dev
 
 ### 🏆 Caminho B (Moderno - PostgreSQL + Drizzle)
 
-```bash
+\`\`\`bash
 git checkout feature/supabase-drizzle
 npm install
 npm run db:generate
 npm run db:migrate && npm run db:seed
 npm run dev:drizzle
-```
+\`\`\`
 
 **Stack:**
 
@@ -119,7 +119,7 @@ npm run dev:drizzle
 
 ### Agregação por Imóvel
 
-```typescript
+\`\`\`typescript
 const groupedByProperty = data.reduce(
   (acc, payment) => {
     const key = payment.codigo_imovel;
@@ -133,11 +133,11 @@ const groupedByProperty = data.reduce(
   },
   {} as Record<number, PaymentsByPropertyItem>
 );
-```
+\`\`\`
 
 ### Agrupamento por Mês
 
-```typescript
+\`\`\`typescript
 const groupedByMonth = data.reduce(
   (acc, payment) => {
     const monthYear = this.formatToMonthYear(payment.data_do_pagamento);
@@ -148,11 +148,11 @@ const groupedByMonth = data.reduce(
   },
   {} as Record<string, SalesByMonthItem>
 );
-```
+\`\`\`
 
 ### Cálculo de Percentuais
 
-```typescript
+\`\`\`typescript
 const share = Object.entries(countByType)
   .map(([tipo_imovel, quantidade]) => ({
     tipo_imovel,
@@ -160,13 +160,13 @@ const share = Object.entries(countByType)
     quantidade,
   }))
   .sort((a, b) => b.percentual - a.percentual);
-```
+\`\`\`
 
 ## 📱 Exemplos de Respostas
 
 ### /analytics/payments-by-property
 
-```json
+\`\`\`json
 [
   {
     "codigo_imovel": 8,
@@ -175,11 +175,11 @@ const share = Object.entries(countByType)
     "total_pagamentos": 18000.0
   }
 ]
-```
+\`\`\`
 
 ### /analytics/sales-by-month
 
-```json
+\`\`\`json
 {
   "series": [
     {
@@ -189,11 +189,11 @@ const share = Object.entries(countByType)
     }
   ]
 }
-```
+\`\`\`
 
 ### /analytics/sales-share-by-type
 
-```json
+\`\`\`json
 {
   "share": [
     {
@@ -204,47 +204,47 @@ const share = Object.entries(countByType)
   ],
   "total": 33
 }
-```
+\`\`\`
 
 ## 🧪 Testes Implementados
 
 ### Unitários (services/analytics.service.test.ts)
 
-```bash
+\`\`\`bash
 ✅ calculatePaymentsByProperty
 ✅ calculateSalesByMonth
 ✅ calculateSalesShareByType
 ✅ Edge cases (dados vazios, arredondamentos)
-```
+\`\`\`
 
 ### Integração (routes/analytics.routes.test.ts)
 
-```bash
+\`\`\`bash
 ✅ GET /health
 ✅ GET /raw/payments
 ✅ GET /analytics/* (todos os endpoints)
 ✅ Error handling (500, mocks)
-```
+\`\`\`
 
 ### Coverage
 
-```bash
+\`\`\`bash
 npm run test:coverage
 # > 85% coverage nas funções críticas
-```
+\`\`\`
 
 ## 📋 Scripts de Evidência
 
 ### Geração Automática
 
-```bash
+\`\`\`bash
 npm run evidence:generate
 # Gera /evidences/*.json automaticamente
-```
+\`\`\`
 
 ### Testes Manuais
 
-```bash
+\`\`\`bash
 # Health check
 curl -s http://localhost:3000/health | jq
 
@@ -255,7 +255,7 @@ curl -s http://localhost:3000/raw/payments | jq
 curl -s http://localhost:3000/analytics/payments-by-property | jq
 curl -s http://localhost:3000/analytics/sales-by-month | jq
 curl -s http://localhost:3000/analytics/sales-share-by-type | jq
-```
+\`\`\`
 
 ## 🎬 Roteiro de Vídeo (3 minutos)
 

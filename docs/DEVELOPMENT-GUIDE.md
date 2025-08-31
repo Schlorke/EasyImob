@@ -17,20 +17,20 @@ Este documento orienta desenvolvedores humanos e agentes de IA (ChatGPT, Claude,
 
 ### 📚 Documentação Obrigatória
 
-```bash
+\`\`\`bash
 # Ordem de leitura recomendada para contexto completo:
 1. docs/ARCHITECTURE.md     # Entender a arquitetura
 2. docs/DEVELOPMENT-GUIDE.md # Este arquivo
 3. CHANGELOG.md            # Histórico de mudanças
 4. README.md               # Visão geral do projeto
 5. .cursorrules            # Regras específicas do Cursor
-```
+\`\`\`
 
 ## 🏗️ Convenções de Código
 
 ### 📁 Estrutura de Arquivos
 
-```
+\`\`\`
 src/
 ├── types/              # Tipos TypeScript - SEMPRE definir aqui primeiro
 ├── db/                 # Conexão e configuração de banco
@@ -40,11 +40,11 @@ src/
 ├── routes/             # Definição de endpoints
 ├── app.ts              # Configuração Express
 └── server.ts           # Bootstrap da aplicação
-```
+\`\`\`
 
 ### 🎨 Padrões de Nomenclatura
 
-```typescript
+\`\`\`typescript
 // Interfaces e Types - PascalCase
 interface PaymentData { }
 type AnalyticsResponse = { };
@@ -65,11 +65,11 @@ const DEFAULT_LIMIT = 100;
 analytics.service.ts
 payments.repository.ts
 development-guide.md
-```
+\`\`\`
 
 ### 🔧 Convenções TypeScript
 
-```typescript
+\`\`\`typescript
 // ✅ SEMPRE usar tipos explícitos
 function calculateTotal(payments: PaymentData[]): number {
   return payments.reduce((sum, payment) => sum + payment.valor_do_pagamento, 0);
@@ -94,13 +94,13 @@ function badFunction(data: any): any { } // FORBIDDEN
 function safeFunction(data: unknown): ParsedData {
   // Type guards aqui
 }
-```
+\`\`\`
 
 ## 🧩 Padrões de Implementação
 
 ### 🎯 Regra #1: Programação Funcional nos Services
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Functional Programming
 class AnalyticsService {
   calculateMetrics(data: PaymentData[]): MetricsResult {
@@ -129,11 +129,11 @@ class BadService {
     return result;
   }
 }
-```
+\`\`\`
 
 ### 🎯 Regra #2: Repository Apenas SELECT JOIN
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Apenas JOIN, sem agregações
 class PaymentsRepository {
   async getAllPaymentsData(): Promise<PaymentData[]> {
@@ -161,11 +161,11 @@ class BadRepository {
     return this.executeQuery(query);
   }
 }
-```
+\`\`\`
 
 ### 🎯 Regra #3: Controllers como HTTP Handlers
 
-```typescript
+\`\`\`typescript
 // ✅ CORRETO - Delegar para service
 export class AnalyticsController {
   constructor(
@@ -207,13 +207,13 @@ export class BadController {
     res.json(grouped);
   }
 }
-```
+\`\`\`
 
 ## 🧪 Padrões de Testes
 
 ### Unit Tests para Services
 
-```typescript
+\`\`\`typescript
 // ✅ Teste focado em lógica pura
 describe('AnalyticsService', () => {
   let service: AnalyticsService;
@@ -248,11 +248,11 @@ describe('AnalyticsService', () => {
     expect(result[0].total_pagamentos).toBe(3000.00);
   });
 });
-```
+\`\`\`
 
 ### Integration Tests para Controllers
 
-```typescript
+\`\`\`typescript
 // ✅ Teste end-to-end com mocks
 describe('Analytics Routes', () => {
   const app = createApp();
@@ -273,12 +273,12 @@ describe('Analytics Routes', () => {
     expect(response.body[0]).toHaveProperty('total_pagamentos');
   });
 });
-```
+\`\`\`
 
 ## 🔄 Fluxo de Desenvolvimento
 
 ### 1. Análise de Requisitos
-```markdown
+\`\`\`markdown
 ## Para implementar nova feature:
 
 1. **Entender o requisito**
@@ -293,11 +293,11 @@ describe('Analytics Routes', () => {
 
 3. **Implementar seguindo as camadas**
    - Types → Repository → Service → Controller → Routes
-```
+\`\`\`
 
 ### 2. Implementação Step-by-Step
 
-```typescript
+\`\`\`typescript
 // STEP 1: Definir tipos em src/types/index.ts
 export interface NewMetricItem {
   property_id: number;
@@ -350,13 +350,13 @@ describe('calculateNewMetric', () => {
     // Arrange, Act, Assert
   });
 });
-```
+\`\`\`
 
 ## 🚨 Regras Críticas para IA
 
 ### ⛔ NUNCA FAZER
 
-```typescript
+\`\`\`typescript
 // ❌ Quebrar programação funcional
 for (let item of array) { } // Use map/filter/reduce instead
 
@@ -375,11 +375,11 @@ function process(data: any): any { }
 
 // ❌ Console.log em produção sem contexto
 console.log(data); // Use structured logging
-```
+\`\`\`
 
 ### ✅ SEMPRE FAZER
 
-```typescript
+\`\`\`typescript
 // ✅ Programação funcional
 const result = data
   .filter(item => item.isValid)
@@ -399,12 +399,12 @@ function process(data: PaymentData[]): ProcessedResult {
 // Repository: apenas dados
 // Service: apenas lógica
 // Controller: apenas HTTP
-```
+\`\`\`
 
 ## 🔍 Debugging e Troubleshooting
 
 ### Logs Estruturados
-```typescript
+\`\`\`typescript
 // ✅ Logs informativos com contexto
 console.log('📊 Processing analytics data', {
   recordCount: data.length,
@@ -418,10 +418,10 @@ console.error('❌ Error in analytics calculation:', {
   stack: error.stack,
   input: { dataLength: data.length }
 });
-```
+\`\`\`
 
 ### Performance Monitoring
-```typescript
+\`\`\`typescript
 // ✅ Timing para operações críticas
 const startTime = performance.now();
 const result = this.heavyCalculation(data);
@@ -431,7 +431,7 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
   inputSize: data.length,
   outputSize: result.length
 });
-```
+\`\`\`
 
 ## 📊 Métricas de Qualidade
 

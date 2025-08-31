@@ -26,7 +26,7 @@ Any suggestion that breaks these rules could cause the student to fail. Be extre
 
 ## 🏗️ Architecture Overview
 
-```
+\`\`\`
 ┌─────────────────────────────────────────┐
 │  Controllers (HTTP only)               │
 ├─────────────────────────────────────────┤
@@ -36,7 +36,7 @@ Any suggestion that breaks these rules could cause the student to fail. Be extre
 ├─────────────────────────────────────────┤
 │  Database (MySQL)                      │
 └─────────────────────────────────────────┘
-```
+\`\`\`
 
 ### Current Data Flow
 1. **Controller** receives HTTP request
@@ -48,7 +48,7 @@ Any suggestion that breaks these rules could cause the student to fail. Be extre
 
 ### ✅ ALWAYS Suggest These Patterns
 
-```typescript
+\`\`\`typescript
 // ✅ Functional data processing
 const processPayments = (data: PaymentData[]): Result[] =>
   data
@@ -77,11 +77,11 @@ interface PaymentsByPropertyItem {
   tipo_imovel: string;
   total_pagamentos: number;
 }
-```
+\`\`\`
 
 ### ❌ NEVER Suggest These Patterns
 
-```typescript
+\`\`\`typescript
 // ❌ SQL aggregations (violates HOW VII)
 SELECT codigo_imovel, SUM(valor_do_pagamento) 
 FROM venda_pagamento 
@@ -103,7 +103,7 @@ if (payment.value > 1000) { // Move to service
 
 // ❌ Any types (use specific types)
 function process(data: any): any { }
-```
+\`\`\`
 
 ## 📊 Current Endpoints (Don't Break)
 
@@ -118,7 +118,7 @@ function process(data: any): any { }
 ## 🎯 When Suggesting New Features
 
 ### 1. Follow This Pattern
-```typescript
+\`\`\`typescript
 // Step 1: Define types in src/types/index.ts
 interface NewAnalyticsResult {
   metric_name: string;
@@ -147,10 +147,10 @@ class AnalyticsController {
 
 // Step 4: Register route
 router.get('/analytics/new-metric', controller.getNewMetric);
-```
+\`\`\`
 
 ### 2. Always Include Tests
-```typescript
+\`\`\`typescript
 describe('calculateNewMetric', () => {
   it('should process data correctly using functional programming', () => {
     const mockData: PaymentData[] = [/* test data */];
@@ -158,7 +158,7 @@ describe('calculateNewMetric', () => {
     expect(result).toEqual(/* expected result */);
   });
 });
-```
+\`\`\`
 
 ## 🧪 Testing Suggestions
 
@@ -193,7 +193,7 @@ Since all processing is in-memory (HOW VII requirement):
 - Use built-in array methods (optimized)
 - Consider early returns with `filter()`
 
-```typescript
+\`\`\`typescript
 // ✅ Efficient functional pattern
 const result = data
   .filter(payment => payment.valor_do_pagamento > minValue) // Early filtering
@@ -204,11 +204,11 @@ const result = data
 const result = data.map(payment => 
   data.filter(p => p.codigo_imovel === payment.codigo_imovel) // Nested loop
 );
-```
+\`\`\`
 
 ## 🎨 Naming Convention Guidance
 
-```typescript
+\`\`\`typescript
 // Interfaces - PascalCase
 interface PaymentAnalyticsResult { }
 
@@ -224,11 +224,11 @@ const MAX_PAYMENT_VALUE = 100000;
 
 // Files - kebab-case
 payment-analytics.service.ts
-```
+\`\`\`
 
 ## 🚨 Error Handling Patterns
 
-```typescript
+\`\`\`typescript
 // ✅ Structured error handling
 try {
   const data = await repository.getAllPaymentsData();
@@ -245,12 +245,12 @@ try {
     message: process.env.NODE_ENV === 'development' ? error.message : 'Processing failed'
   });
 }
-```
+\`\`\`
 
 ## 🎯 Contextual Suggestions
 
 ### When you see functional programming needed:
-```typescript
+\`\`\`typescript
 // Instead of suggesting:
 let total = 0;
 for (const payment of payments) {
@@ -259,10 +259,10 @@ for (const payment of payments) {
 
 // Suggest:
 const total = payments.reduce((sum, payment) => sum + payment.value, 0);
-```
+\`\`\`
 
 ### When you see data transformation needed:
-```typescript
+\`\`\`typescript
 // Instead of suggesting:
 const result = [];
 for (const payment of payments) {
@@ -271,10 +271,10 @@ for (const payment of payments) {
 
 // Suggest:
 const result = payments.map(payment => ({ ...payment, processed: true }));
-```
+\`\`\`
 
 ### When you see filtering needed:
-```typescript
+\`\`\`typescript
 // Instead of suggesting:
 const valid = [];
 for (const payment of payments) {
@@ -285,7 +285,7 @@ for (const payment of payments) {
 
 // Suggest:
 const valid = payments.filter(payment => payment.value > 0);
-```
+\`\`\`
 
 ## 📝 Documentation Updates
 

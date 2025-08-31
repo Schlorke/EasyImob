@@ -40,14 +40,14 @@
 ## 🏗️ Arquitetura Técnica
 
 ### Stack Tecnológico
-```
+\`\`\`
 Frontend: N/A (Backend-only project)
 Backend: Node.js 20+ + TypeScript + Express 5
 Database: MySQL 8.0+
 Testing: Vitest + Supertest
 Quality: ESLint + Prettier + Spell Check
 Deploy: Docker-ready, environment agnostic
-```
+\`\`\`
 
 ### Padrões Arquiteturais
 - **Clean Architecture**: Repository → Service → Controller → Routes
@@ -76,12 +76,12 @@ Deploy: Docker-ready, environment agnostic
 **Objetivo**: Identificar imóveis com maior retorno financeiro
 
 **Processamento**: 
-```typescript
+\`\`\`typescript
 data.reduce((acc, payment) => {
   acc[payment.codigo_imovel] += payment.valor_do_pagamento;
   return acc;
 }, {});
-```
+\`\`\`
 
 **Valor**: Auxilia decisões de investimento e portfolio management
 
@@ -89,11 +89,11 @@ data.reduce((acc, payment) => {
 **Objetivo**: Análise temporal de performance de vendas
 
 **Processamento**:
-```typescript
+\`\`\`typescript
 data
   .map(payment => formatToMonthYear(payment.data_do_pagamento))
   .reduce(aggregateByMonth, {});
-```
+\`\`\`
 
 **Valor**: Identifica sazonalidade e trends de mercado
 
@@ -101,11 +101,11 @@ data
 **Objetivo**: Distribuição de vendas por categoria de imóvel
 
 **Processamento**:
-```typescript
+\`\`\`typescript
 data
   .reduce(countByType, {})
   .map(calculatePercentages);
-```
+\`\`\`
 
 **Valor**: Insights sobre preferências de mercado e diversificação
 
