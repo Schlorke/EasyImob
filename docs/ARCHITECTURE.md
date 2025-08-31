@@ -14,6 +14,7 @@
 **EasyImob** é um sistema backend HTTP/REST desenvolvido em **Node.js + TypeScript** para análise de dados imobiliários, seguindo os princípios de **Clean Architecture** e **programação funcional**.
 
 ### Contexto Acadêmico
+
 - **Instituição**: UNIVALI
 - **Disciplina**: Hands On Work VII
 - **Objetivo**: Implementar analytics imobiliários sem agregações SQL (WHERE/GROUP BY)
@@ -22,6 +23,7 @@
 ## 🎨 Princípios Arquiteturais
 
 ### 1. Clean Architecture (Hexagonal)
+
 ```
 ┌─────────────────────────────────────────┐
 │             Controllers                 │ ← HTTP Layer
@@ -35,12 +37,14 @@
 ```
 
 ### 2. Separation of Concerns
+
 - **Controllers**: Apenas HTTP handlers
 - **Services**: Lógica de negócio pura (functional programming)
 - **Repositories**: Acesso a dados (apenas SELECT JOIN)
 - **Types**: Contratos e interfaces
 
 ### 3. Dependency Injection
+
 - Inversão de controle
 - Testabilidade
 - Baixo acoplamento
@@ -48,6 +52,7 @@
 ## 📁 Estrutura de Camadas
 
 ### 🌐 Presentation Layer (`src/controllers/`)
+
 ```typescript
 // Responsabilidade: HTTP Request/Response handling
 export class AnalyticsController {
@@ -60,18 +65,23 @@ export class AnalyticsController {
 ```
 
 ### 🧠 Business Layer (`src/services/`)
+
 ```typescript
 // Responsabilidade: Pure functional programming
 export class AnalyticsService {
   calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
-    return data.reduce((acc, payment) => {
-      // Functional aggregation logic
-    }, {} as Record<number, PaymentsByPropertyItem>);
+    return data.reduce(
+      (acc, payment) => {
+        // Functional aggregation logic
+      },
+      {} as Record<number, PaymentsByPropertyItem>
+    );
   }
 }
 ```
 
 ### 💾 Data Layer (`src/repositories/`)
+
 ```typescript
 // Responsabilidade: Single JOIN query, no WHERE/GROUP BY
 export class PaymentsRepository {
@@ -115,11 +125,13 @@ graph TD
 ## 🔧 Padrões Implementados
 
 ### 1. Repository Pattern
+
 - Encapsulamento de acesso a dados
 - Single responsibility (apenas JOIN)
 - Interface consistente
 
 ### 2. Factory Pattern
+
 ```typescript
 export const createAnalyticsController = (
   repository: PaymentsRepository,
@@ -130,6 +142,7 @@ export const createAnalyticsController = (
 ```
 
 ### 3. Functional Programming
+
 ```typescript
 // Pure functions - sem side effects
 const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
@@ -143,41 +156,46 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
 ```
 
 ### 4. Immutable Data Structures
+
 - Todas as transformações retornam novos objetos
 - Estado não é mutado
 - Predicibilidade e testabilidade
 
 ## 📊 Endpoints e Responsabilidades
 
-| Endpoint | Controller | Service | Repository | Processing |
-|----------|------------|---------|------------|------------|
-| `GET /health` | HealthController | - | healthCheck() | - |
-| `GET /raw/payments` | AnalyticsController | - | getAllPaymentsData() | - |
-| `GET /analytics/payments-by-property` | AnalyticsController | calculatePaymentsByProperty() | getAllPaymentsData() | reduce() |
-| `GET /analytics/sales-by-month` | AnalyticsController | calculateSalesByMonth() | getAllPaymentsData() | reduce() + map() |
-| `GET /analytics/sales-share-by-type` | AnalyticsController | calculateSalesShareByType() | getAllPaymentsData() | reduce() + map() |
+| Endpoint                              | Controller          | Service                       | Repository           | Processing       |
+| ------------------------------------- | ------------------- | ----------------------------- | -------------------- | ---------------- |
+| `GET /health`                         | HealthController    | -                             | healthCheck()        | -                |
+| `GET /raw/payments`                   | AnalyticsController | -                             | getAllPaymentsData() | -                |
+| `GET /analytics/payments-by-property` | AnalyticsController | calculatePaymentsByProperty() | getAllPaymentsData() | reduce()         |
+| `GET /analytics/sales-by-month`       | AnalyticsController | calculateSalesByMonth()       | getAllPaymentsData() | reduce() + map() |
+| `GET /analytics/sales-share-by-type`  | AnalyticsController | calculateSalesShareByType()   | getAllPaymentsData() | reduce() + map() |
 
 ## 🎯 Decisões Técnicas
 
 ### Por que TypeScript?
+
 - **Type Safety**: Prevenção de erros em tempo de compilação
 - **IntelliSense**: Melhor developer experience
 - **Refactoring**: Segurança em mudanças de código
 - **Documentation**: Tipos servem como documentação viva
 
 ### Por que Clean Architecture?
+
 - **Testabilidade**: Cada camada pode ser testada isoladamente
 - **Manutenibilidade**: Mudanças em uma camada não afetam outras
 - **Escalabilidade**: Fácil adição de novas features
 - **Flexibilidade**: Troca de database/framework sem impacto
 
 ### Por que Programação Funcional?
+
 - **Predicibilidade**: Funções puras sempre retornam o mesmo resultado
 - **Testabilidade**: Sem side effects, testes são mais simples
 - **Paralelização**: Operações podem ser paralelizadas facilmente
 - **Conformidade**: Atende requisito do HOW VII
 
 ### Por que Single JOIN Query?
+
 - **Performance**: Uma única consulta ao banco
 - **Simplicidade**: Lógica de agregação no código
 - **Flexibilidade**: Múltiplas análises dos mesmos dados
@@ -186,6 +204,7 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
 ## 🔍 Pontos de Extensão
 
 ### Novos Analytics
+
 ```typescript
 // 1. Adicionar método no AnalyticsService
 calculateNewMetric(data: PaymentData[]): NewMetricItem[] {
@@ -207,6 +226,7 @@ router.get('/analytics/new-metric', controller.getNewMetric);
 ```
 
 ### Novos Dados
+
 ```typescript
 // 1. Estender PaymentData interface
 export interface ExtendedPaymentData extends PaymentData {
@@ -224,12 +244,14 @@ const query = `
 ## 🧪 Estratégia de Testes
 
 ### Unit Tests
+
 - **Services**: Testam lógica de negócio pura
 - **Input**: Dados sintéticos
 - **Output**: Resultados esperados
 - **Coverage**: 100% das funções de cálculo
 
 ### Integration Tests
+
 - **Controllers**: Testam endpoints completos
 - **Mocks**: Repository com dados controlados
 - **Assertions**: Estrutura JSON e códigos HTTP

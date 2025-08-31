@@ -46,15 +46,15 @@ src/
 
 ```typescript
 // Interfaces e Types - PascalCase
-interface PaymentData { }
-type AnalyticsResponse = { };
+interface PaymentData {}
+type AnalyticsResponse = {};
 
 // Classes - PascalCase
-class AnalyticsService { }
-class PaymentsRepository { }
+class AnalyticsService {}
+class PaymentsRepository {}
 
 // Métodos e variáveis - camelCase
-calculatePaymentsByProperty()
+calculatePaymentsByProperty();
 const monthlyData = [];
 
 // Constantes - UPPER_SNAKE_CASE
@@ -62,9 +62,9 @@ const BASE_URL = 'http://localhost:3000';
 const DEFAULT_LIMIT = 100;
 
 // Arquivos - kebab-case
-analytics.service.ts
-payments.repository.ts
-development-guide.md
+analytics.service.ts;
+payments.repository.ts;
+development - guide.md;
 ```
 
 ### 🔧 Convenções TypeScript
@@ -84,11 +84,11 @@ interface ServiceInterface {
 enum PaymentStatus {
   PENDING = 'pending',
   COMPLETED = 'completed',
-  CANCELLED = 'cancelled'
+  CANCELLED = 'cancelled',
 }
 
 // ❌ NUNCA usar any
-function badFunction(data: any): any { } // FORBIDDEN
+function badFunction(data: any): any {} // FORBIDDEN
 
 // ✅ Usar unknown quando tipo é incerto
 function safeFunction(data: unknown): ParsedData {
@@ -105,16 +105,16 @@ function safeFunction(data: unknown): ParsedData {
 class AnalyticsService {
   calculateMetrics(data: PaymentData[]): MetricsResult {
     return data
-      .filter(payment => payment.valor_do_pagamento > 0) // Filtragem pura
-      .map(payment => this.transformPayment(payment))    // Transformação pura
-      .reduce(this.aggregateData, {});                   // Agregação pura
+      .filter((payment) => payment.valor_do_pagamento > 0) // Filtragem pura
+      .map((payment) => this.transformPayment(payment)) // Transformação pura
+      .reduce(this.aggregateData, {}); // Agregação pura
   }
 
   private transformPayment(payment: PaymentData): TransformedPayment {
     // Função pura - mesmo input, mesmo output
     return {
       ...payment,
-      formatted_value: this.formatCurrency(payment.valor_do_pagamento)
+      formatted_value: this.formatCurrency(payment.valor_do_pagamento),
     };
   }
 }
@@ -123,8 +123,9 @@ class AnalyticsService {
 class BadService {
   calculateMetrics(data: PaymentData[]): MetricsResult {
     let result = {};
-    for (let i = 0; i < data.length; i++) {  // FORBIDDEN
-      result[data[i].id] = data[i].value;    // FORBIDDEN - mutação
+    for (let i = 0; i < data.length; i++) {
+      // FORBIDDEN
+      result[data[i].id] = data[i].value; // FORBIDDEN - mutação
     }
     return result;
   }
@@ -177,10 +178,10 @@ export class AnalyticsController {
     try {
       // 1. Buscar dados brutos
       const rawData = await this.repository.getAllPaymentsData();
-      
+
       // 2. Processar com service (functional)
       const result = this.service.calculatePaymentsByProperty(rawData);
-      
+
       // 3. Retornar JSON
       res.status(200).json(result);
     } catch (error) {
@@ -194,7 +195,7 @@ export class AnalyticsController {
 export class BadController {
   async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
     const data = await this.repository.getAllPaymentsData();
-    
+
     // FORBIDDEN - Lógica de negócio no controller
     let grouped = {};
     for (let payment of data) {
@@ -203,7 +204,7 @@ export class BadController {
       }
       grouped[payment.codigo_imovel] += payment.valor_do_pagamento;
     }
-    
+
     res.json(grouped);
   }
 }
@@ -217,7 +218,7 @@ export class BadController {
 // ✅ Teste focado em lógica pura
 describe('AnalyticsService', () => {
   let service: AnalyticsService;
-  
+
   beforeEach(() => {
     service = new AnalyticsService();
   });
@@ -228,15 +229,15 @@ describe('AnalyticsService', () => {
       {
         id_venda: 1,
         codigo_imovel: 101,
-        valor_do_pagamento: 1500.00,
+        valor_do_pagamento: 1500.0,
         // ... outros campos
       },
       {
         id_venda: 2,
         codigo_imovel: 101,
-        valor_do_pagamento: 1500.00,
+        valor_do_pagamento: 1500.0,
         // ... outros campos
-      }
+      },
     ];
 
     // Act - executar função pura
@@ -245,7 +246,7 @@ describe('AnalyticsService', () => {
     // Assert - verificar resultado determinístico
     expect(result).toHaveLength(1);
     expect(result[0].codigo_imovel).toBe(101);
-    expect(result[0].total_pagamentos).toBe(3000.00);
+    expect(result[0].total_pagamentos).toBe(3000.0);
   });
 });
 ```
@@ -256,17 +257,14 @@ describe('AnalyticsService', () => {
 // ✅ Teste end-to-end com mocks
 describe('Analytics Routes', () => {
   const app = createApp();
-  
+
   beforeEach(() => {
     // Mock repository para dados controlados
-    vi.mocked(PaymentsRepository.prototype.getAllPaymentsData)
-      .mockResolvedValue(mockPaymentData);
+    vi.mocked(PaymentsRepository.prototype.getAllPaymentsData).mockResolvedValue(mockPaymentData);
   });
 
   it('should return payments by property', async () => {
-    const response = await request(app)
-      .get('/analytics/payments-by-property')
-      .expect(200);
+    const response = await request(app).get('/analytics/payments-by-property').expect(200);
 
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body[0]).toHaveProperty('codigo_imovel');
@@ -278,6 +276,7 @@ describe('Analytics Routes', () => {
 ## 🔄 Fluxo de Desenvolvimento
 
 ### 1. Análise de Requisitos
+
 ```markdown
 ## Para implementar nova feature:
 
@@ -317,7 +316,7 @@ class AnalyticsService {
       .filter(/* critério específico */)
       .map(/* transformação necessária */)
       .reduce(/* agregação funcional */, []);
-    
+
     return {
       data: processed,
       total: processed.length
@@ -382,8 +381,8 @@ console.log(data); // Use structured logging
 ```typescript
 // ✅ Programação funcional
 const result = data
-  .filter(item => item.isValid)
-  .map(item => transform(item))
+  .filter((item) => item.isValid)
+  .map((item) => transform(item))
   .reduce(aggregate, initialValue);
 
 // ✅ Imutabilidade
@@ -392,7 +391,7 @@ const newObject = { ...oldObject, newField: value };
 
 // ✅ Tipos explícitos
 function process(data: PaymentData[]): ProcessedResult {
-  return data.map(item => ({ ...item, processed: true }));
+  return data.map((item) => ({ ...item, processed: true }));
 }
 
 // ✅ Separação de responsabilidades
@@ -404,23 +403,25 @@ function process(data: PaymentData[]): ProcessedResult {
 ## 🔍 Debugging e Troubleshooting
 
 ### Logs Estruturados
+
 ```typescript
 // ✅ Logs informativos com contexto
 console.log('📊 Processing analytics data', {
   recordCount: data.length,
   operation: 'calculatePaymentsByProperty',
-  timestamp: new Date().toISOString()
+  timestamp: new Date().toISOString(),
 });
 
 // ✅ Error logging com stack trace
 console.error('❌ Error in analytics calculation:', {
   error: error.message,
   stack: error.stack,
-  input: { dataLength: data.length }
+  input: { dataLength: data.length },
 });
 ```
 
 ### Performance Monitoring
+
 ```typescript
 // ✅ Timing para operações críticas
 const startTime = performance.now();
@@ -429,13 +430,14 @@ const endTime = performance.now();
 
 console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
   inputSize: data.length,
-  outputSize: result.length
+  outputSize: result.length,
 });
 ```
 
 ## 📊 Métricas de Qualidade
 
 ### Code Quality Checklist
+
 - [ ] TypeScript strict mode ativado
 - [ ] ESLint sem warnings
 - [ ] Prettier formatação aplicada
@@ -444,6 +446,7 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
 - [ ] Documentação atualizada
 
 ### Performance Benchmarks
+
 - [ ] Endpoints respondem < 500ms
 - [ ] Processamento 1000 registros < 100ms
 - [ ] Memória não excede 100MB
@@ -452,12 +455,14 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
 ## 🎯 Próximos Passos Recomendados
 
 ### Para Desenvolvedores
+
 1. Implementar cache em memória para dados frequentes
 2. Adicionar validação de entrada com Zod
 3. Implementar rate limiting
 4. Adicionar métricas com Prometheus
 
 ### Para IA Agents
+
 1. Sempre verificar CHANGELOG.md antes de implementar
 2. Seguir exatamente os padrões funcionais
 3. Testar mudanças com dados sintéticos

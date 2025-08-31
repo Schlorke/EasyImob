@@ -14,14 +14,14 @@ npm run agent:docs  # Validador automático de documentação
 
 ### 📋 Documentos Disponíveis
 
-| Documento | Propósito | Audiência |
-|-----------|-----------|-----------|
-| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Arquitetura e padrões do sistema | Desenvolvedores + IA |
-| **[docs/DEVELOPMENT-GUIDE.md](docs/DEVELOPMENT-GUIDE.md)** | Convenções e regras de desenvolvimento | Desenvolvedores + IA |
-| **[docs/PROJECT-OVERVIEW.md](docs/PROJECT-OVERVIEW.md)** | Visão executiva e valor de negócio | Stakeholders |
-| **[CHANGELOG.md](CHANGELOG.md)** | Histórico completo de mudanças | Todos |
-| **[.cursorrules](.cursorrules)** | Regras específicas para Cursor AI | Agentes Cursor |
-| **[.github/copilot-instructions.md](.github/copilot-instructions.md)** | Instruções para GitHub Copilot | GitHub Copilot |
+| Documento                                                              | Propósito                              | Audiência            |
+| ---------------------------------------------------------------------- | -------------------------------------- | -------------------- |
+| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**                       | Arquitetura e padrões do sistema       | Desenvolvedores + IA |
+| **[docs/DEVELOPMENT-GUIDE.md](docs/DEVELOPMENT-GUIDE.md)**             | Convenções e regras de desenvolvimento | Desenvolvedores + IA |
+| **[docs/PROJECT-OVERVIEW.md](docs/PROJECT-OVERVIEW.md)**               | Visão executiva e valor de negócio     | Stakeholders         |
+| **[CHANGELOG.md](CHANGELOG.md)**                                       | Histórico completo de mudanças         | Todos                |
+| **[.cursorrules](.cursorrules)**                                       | Regras específicas para Cursor AI      | Agentes Cursor       |
+| **[.github/copilot-instructions.md](.github/copilot-instructions.md)** | Instruções para GitHub Copilot         | GitHub Copilot       |
 
 ### 🚀 Quick Start
 
@@ -47,12 +47,14 @@ curl http://localhost:3000/analytics/payments-by-property
 ## 🎯 Características Principais
 
 ### ✅ Conformidade HOW VII
+
 - **Consulta JOIN única** retornando exatamente 6 colunas
 - **Processamento em memória** com programação funcional
 - **Sem WHERE/GROUP BY** nas agregações dos endpoints
 - **≥ 8 imóveis** e **≥ 30 pagamentos** distribuídos em **≥ 5 meses**
 
 ### 🏗️ Arquitetura
+
 - **Clean Architecture** com separação de camadas
 - **TypeScript** estrito com tipos fortes
 - **Programação funcional** pura (map/filter/reduce/forEach)
@@ -61,13 +63,13 @@ curl http://localhost:3000/analytics/payments-by-property
 
 ## 📊 Endpoints Disponíveis
 
-| Endpoint | Descrição | Processamento |
-|----------|-----------|---------------|
-| `GET /health` | Health check | - |
-| `GET /raw/payments` | Dados brutos do JOIN | - |
-| `GET /analytics/payments-by-property` | Total por imóvel | `reduce()` |
-| `GET /analytics/sales-by-month` | Vendas por mês/ano | `reduce()` + `map()` |
-| `GET /analytics/sales-share-by-type` | Percentual por tipo | `reduce()` + percentuais |
+| Endpoint                              | Descrição            | Processamento            |
+| ------------------------------------- | -------------------- | ------------------------ |
+| `GET /health`                         | Health check         | -                        |
+| `GET /raw/payments`                   | Dados brutos do JOIN | -                        |
+| `GET /analytics/payments-by-property` | Total por imóvel     | `reduce()`               |
+| `GET /analytics/sales-by-month`       | Vendas por mês/ano   | `reduce()` + `map()`     |
+| `GET /analytics/sales-share-by-type`  | Percentual por tipo  | `reduce()` + percentuais |
 
 ## 🛠️ Comandos Principais
 
@@ -96,9 +98,10 @@ npm run evidence:generate # Gerar evidências JSON
 
 **Instituição**: UNIVALI  
 **Disciplina**: Hands On Work VII  
-**Objetivo**: Demonstrar competências em arquitetura, programação funcional e APIs REST  
+**Objetivo**: Demonstrar competências em arquitetura, programação funcional e APIs REST
 
 ### Restrições Acadêmicas
+
 - Programação funcional obrigatória nos services
 - Processamento de dados em memória (sem SQL agregations)
 - Clean Architecture com TypeScript
