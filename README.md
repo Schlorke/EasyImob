@@ -1,124 +1,339 @@
-# EasyImob
+# 🏠 API de Gestão Imobiliária
 
-🏠 **Sistema de Analytics para Vendas Imobiliárias**
+Sistema completo de gestão imobiliária com processamento de dados em memória usando **map**, **filter**, **reduce** e **forEach**.
 
-Backend HTTP/REST completo desenvolvido para o Hands On Work VII (UNIVALI), implementando análises de vendas imobiliárias com programação funcional e consultas JOIN.
+**Regra importante**: Sem uso de `WHERE` nem `GROUP BY` no MySQL - todo processamento é feito em JavaScript.
 
-## 📚 Documentação Completa
+## 📋 Características
 
-**🤖 Para Agentes de IA**: Leia SEMPRE a documentação antes de implementar:
+- ✅ **Node.js + Express** para backend
+- ✅ **MySQL2** para conexão com banco
+- ✅ **Processamento em memória** (map/filter/reduce/forEach)
+- ✅ **Sem WHERE/GROUP BY** no SQL
+- ✅ **4 endpoints** para diferentes tipos de gráficos
+- ✅ **Código comentado** e bem estruturado
 
-\`\`\`bash
-npm run agent:docs # Validador automático de documentação
-\`\`\`
+## 🗄️ Banco de Dados
 
-### 📋 Documentos Disponíveis
+### Tabelas Criadas
 
-| Documento                                                              | Propósito                              | Audiência            |
-| ---------------------------------------------------------------------- | -------------------------------------- | -------------------- |
-| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**                       | Arquitetura e padrões do sistema       | Desenvolvedores + IA |
-| **[docs/DEVELOPMENT-GUIDE.md](docs/DEVELOPMENT-GUIDE.md)**             | Convenções e regras de desenvolvimento | Desenvolvedores + IA |
-| **[docs/PROJECT-OVERVIEW.md](docs/PROJECT-OVERVIEW.md)**               | Visão executiva e valor de negócio     | Stakeholders         |
-| **[CHANGELOG.md](CHANGELOG.md)**                                       | Histórico completo de mudanças         | Todos                |
-| **[.cursorrules](.cursorrules)**                                       | Regras específicas para Cursor AI      | Agentes Cursor       |
-| **[.github/copilot-instructions.md](.github/copilot-instructions.md)** | Instruções para GitHub Copilot         | GitHub Copilot       |
+```sql
+-- Tabela de imóveis
+imovel (
+    id_imovel INT PK,
+    codigo_imovel VARCHAR,
+    descricao_imovel TEXT,
+    tipo_imovel VARCHAR
+)
 
-### 🚀 Quick Start
+-- Tabela de pagamentos
+pagamento (
+    id_pagamento INT PK,
+    id_imovel FK → imovel,
+    data_pagamento DATE,
+    valor_pagamento DECIMAL
+)
+```
 
-\`\`\`bash
+### Dados Inseridos
 
-# 1. Instalar dependências
+- **10 imóveis** diferentes (Apartamentos, Casas, Comerciais, Cobertura, Studio)
+- **36 pagamentos** distribuídos em **6 meses** (Jan-Jun 2024)
+- **Todos os imóveis** têm pelo menos 1 pagamento
 
+## 🚀 Instalação e Execução
+
+### 1. Clonar e Instalar
+
+```bash
+# Instalar dependências
 npm install
 
-# 2. Configurar banco de dados
-
-mysql -u root -p < db.sql
-
-# 3. Configurar variáveis (.env)
-
+# Copiar arquivo de configuração
 cp env.example .env
+```
 
-# Editar .env com suas configurações
+### 2. Configurar Banco de Dados
 
-# 4. Iniciar desenvolvimento
+Edite o arquivo `.env` com suas credenciais:
 
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_NAME=gestao_imobiliaria
+PORT=3000
+```
+
+### 3. Executar Script SQL
+
+Execute o arquivo `database.sql` no seu MySQL para criar as tabelas e inserir os dados.
+
+### 4. Iniciar Aplicação
+
+```bash
+# Modo desenvolvimento (com nodemon)
 npm run dev
 
-# 5. Testar endpoints
+# Modo produção
+npm start
+```
 
-curl http://localhost:3000/health
-curl http://localhost:3000/analytics/payments-by-property
-\`\`\`
+## 📊 Endpoints da API
 
-## 🎯 Características Principais
+### 🔍 GET `/` - Informações da API
 
-### ✅ Conformidade HOW VII
+Retorna informações básicas sobre a API e endpoints disponíveis.
 
-- **Consulta JOIN única** retornando exatamente 6 colunas
-- **Processamento em memória** com programação funcional
-- **Sem WHERE/GROUP BY** nas agregações dos endpoints
-- **≥ 8 imóveis** e **≥ 30 pagamentos** distribuídos em **≥ 5 meses**
+**Resposta:**
 
-### 🏗️ Arquitetura
+```json
+{
+  "success": true,
+  "message": "API de Gestão Imobiliária - Funcionando!",
+  "endpoints": {
+    "dados_brutos": "GET /dados",
+    "grafico_barras": "GET /grafico-barras",
+    "grafico_linhas": "GET /grafico-linhas",
+    "grafico_pizza": "GET /grafico-pizza"
+  }
+}
+```
 
-- **Clean Architecture** com separação de camadas
-- **TypeScript** estrito com tipos fortes
-- **Programação funcional** pura (map/filter/reduce/forEach)
-- **Testes completos** (unit + integration)
-- **Documentação de classe mundial** para IA e desenvolvedores
+### 📋 GET `/dados` - Dados Brutos
 
-## 📊 Endpoints Disponíveis
+Retorna todos os dados do JOIN sem processamento.
 
-| Endpoint                              | Descrição            | Processamento            |
-| ------------------------------------- | -------------------- | ------------------------ |
-| `GET /health`                         | Health check         | -                        |
-| `GET /raw/payments`                   | Dados brutos do JOIN | -                        |
-| `GET /analytics/payments-by-property` | Total por imóvel     | `reduce()`               |
-| `GET /analytics/sales-by-month`       | Vendas por mês/ano   | `reduce()` + `map()`     |
-| `GET /analytics/sales-share-by-type`  | Percentual por tipo  | `reduce()` + percentuais |
+**Processamento:** Nenhum - dados diretos do banco
+**Query SQL:** `SELECT * FROM pagamento p INNER JOIN imovel i ON p.id_imovel = i.id_imovel`
 
-## 🛠️ Comandos Principais
+**Resposta:**
 
-\`\`\`bash
+```json
+{
+  "success": true,
+  "total_registros": 36,
+  "dados": [
+    {
+      "id_pagamento": 1,
+      "data_pagamento": "2024-01-05",
+      "valor_pagamento": 1800.0,
+      "codigo_imovel": "APT001",
+      "descricao_imovel": "Apartamento 2 quartos...",
+      "tipo_imovel": "Apartamento"
+    }
+  ]
+}
+```
 
-# Desenvolvimento
+### 📊 GET `/grafico-barras` - Gráfico de Barras
 
-npm run dev # Servidor desenvolvimento
-npm run build # Build TypeScript
-npm start # Servidor produção
+Agrupa dados por imóvel e soma os valores.
 
-# Qualidade
+**Processamento:** `reduce()` para agrupar + `map()` para formatar + `sort()` para ordenar
+**Lógica:** Para cada imóvel, somar todos os pagamentos
 
-npm run lint # Verificar código
-npm run test # Executar testes
-npm run spell:check # Verificar ortografia
+**Resposta:**
 
-# Formatação
+```json
+{
+  "success": true,
+  "tipo_grafico": "barras",
+  "dados": [
+    {
+      "codigo_imovel": "COBERTURA001",
+      "descricao_imovel": "Cobertura duplex...",
+      "tipo_imovel": "Cobertura",
+      "total_pagamentos": 13500.0,
+      "quantidade_pagamentos": 3
+    }
+  ]
+}
+```
 
-npm run format # Formatar TypeScript
-npm run format:md # Formatar Markdown
-npm run format:all # Formatar todos os arquivos
+### 📈 GET `/grafico-linhas` - Gráfico de Linhas
 
-# Utilitários
+Agrupa dados por mês/ano e soma os valores.
 
-npm run agent:docs # Validar documentação para IA
-npm run evidence:generate # Gerar evidências JSON
-\`\`\`
+**Processamento:** `reduce()` para agrupar por data + `map()` para formatar datas
+**Lógica:** Para cada mês, somar todos os pagamentos
 
-## 🎓 Projeto Acadêmico
+**Resposta:**
 
-**Instituição**: UNIVALI  
-**Disciplina**: Hands On Work VII  
-**Objetivo**: Demonstrar competências em arquitetura, programação funcional e APIs REST
+```json
+{
+  "success": true,
+  "tipo_grafico": "linhas",
+  "dados": [
+    {
+      "mes_ano": "2024-01",
+      "mes_ano_formatado": "Jan/2024",
+      "total_pagamentos": 11800.0,
+      "quantidade_pagamentos": 5
+    }
+  ]
+}
+```
 
-### Restrições Acadêmicas
+### 🥧 GET `/grafico-pizza` - Gráfico de Pizza
 
-- Programação funcional obrigatória nos services
-- Processamento de dados em memória (sem SQL agregations)
-- Clean Architecture com TypeScript
-- Testes automatizados com alta cobertura
+Calcula percentuais por tipo de imóvel.
+
+**Processamento:** `reduce()` para calcular total + `reduce()` para agrupar + `map()` para calcular %
+**Lógica:** Para cada tipo, calcular percentual sobre o total geral
+
+**Resposta:**
+
+```json
+{
+  "success": true,
+  "tipo_grafico": "pizza",
+  "total_geral": 75600.0,
+  "dados": [
+    {
+      "tipo_imovel": "Casa",
+      "total_pagamentos": 27000.0,
+      "quantidade_pagamentos": 12,
+      "percentual": 35.71
+    }
+  ]
+}
+```
+
+## 🧠 Processamento em Memória
+
+### Técnicas Utilizadas
+
+#### 1. **reduce()** - Agrupamento e Soma
+
+```javascript
+// Agrupar por imóvel
+const agrupado = dados.reduce((acc, item) => {
+  if (!acc[item.codigo_imovel]) {
+    acc[item.codigo_imovel] = { total: 0 };
+  }
+  acc[item.codigo_imovel].total += item.valor_pagamento;
+  return acc;
+}, {});
+```
+
+#### 2. **map()** - Transformação de Dados
+
+```javascript
+// Formatar valores e datas
+const formatado = dados.map((item) => ({
+  ...item,
+  valor_formatado: parseFloat(item.valor.toFixed(2)),
+  data_formatada: formatarData(item.data),
+}));
+```
+
+#### 3. **filter()** - Filtragem (quando necessário)
+
+```javascript
+// Filtrar por critérios específicos
+const filtrado = dados.filter((item) => item.valor_pagamento > 1000);
+```
+
+#### 4. **sort()** - Ordenação
+
+```javascript
+// Ordenar por valor (maior primeiro)
+const ordenado = dados.sort((a, b) => b.total_pagamentos - a.total_pagamentos);
+```
+
+## 📁 Estrutura do Projeto
+
+```
+📦 gestao-imobiliaria-api/
+├── 📄 database.sql              # Script de criação do banco
+├── 📄 package.json              # Dependências e scripts
+├── 📄 env.example               # Exemplo de configuração
+├── 📄 README.md                 # Esta documentação
+└── 📁 src/
+    ├── 📄 app.js                # Aplicação principal
+    ├── 📁 config/
+    │   └── 📄 db.js             # Configuração do MySQL
+    ├── 📁 controllers/
+    │   └── 📄 dataController.js # Lógica de processamento
+    └── 📁 routes/
+        └── 📄 index.js          # Definição das rotas
+```
+
+## 🔧 Tecnologias Utilizadas
+
+- **Node.js** - Runtime JavaScript
+- **Express.js** - Framework web
+- **MySQL2** - Driver MySQL com Promises
+- **dotenv** - Gerenciamento de variáveis de ambiente
+- **cors** - Middleware para CORS
+
+## 📝 Regras Implementadas
+
+✅ **Sem WHERE nem GROUP BY** - Todo processamento em JavaScript  
+✅ **Dados completos** - Sempre busca todos os registros do banco  
+✅ **map/filter/reduce/forEach** - Usado para todo processamento  
+✅ **8+ imóveis** - 10 imóveis cadastrados  
+✅ **30+ pagamentos** - 36 pagamentos em 6 meses  
+✅ **5+ meses** - Dados de Janeiro a Junho 2024  
+✅ **Todos imóveis com pagamento** - Garantido na inserção
+
+## 🧪 Testando a API
+
+### Usando curl:
+
+```bash
+# Informações da API
+curl http://localhost:3000/
+
+# Dados brutos
+curl http://localhost:3000/dados
+
+# Gráfico de barras
+curl http://localhost:3000/grafico-barras
+
+# Gráfico de linhas
+curl http://localhost:3000/grafico-linhas
+
+# Gráfico de pizza
+curl http://localhost:3000/grafico-pizza
+```
+
+### Usando navegador:
+
+Acesse `http://localhost:3000` e navegue pelos endpoints.
+
+## 🚨 Troubleshooting
+
+### Erro de Conexão MySQL
+
+```
+❌ Erro ao conectar com o banco de dados
+```
+
+**Solução:** Verifique as credenciais no arquivo `.env`
+
+### Erro "database.sql não executado"
+
+```
+❌ Table 'gestao_imobiliaria.imovel' doesn't exist
+```
+
+**Solução:** Execute o script `database.sql` no seu MySQL
+
+### Porta já em uso
+
+```
+❌ Error: listen EADDRINUSE :::3000
+```
+
+**Solução:** Altere a porta no `.env` ou mate o processo na porta 3000
+
+## 👨‍💻 Autor
+
+Sistema desenvolvido seguindo as especificações de processamento em memória com JavaScript, sem uso de agregações SQL.
 
 ---
 
-**📖 Para informações técnicas detalhadas, consulte a [documentação completa](docs/).**
+**🎯 Objetivo alcançado:** API funcional com processamento 100% em memória usando map/filter/reduce/forEach!

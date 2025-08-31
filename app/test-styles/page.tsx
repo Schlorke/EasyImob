@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function TestStyles() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -47,12 +49,12 @@ export default function TestStyles() {
         </div>
 
         <div className="mt-8">
-          <a
+          <Link
             href="/"
             className="inline-block bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-lg transition-colors"
           >
             ← Voltar ao Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     </div>

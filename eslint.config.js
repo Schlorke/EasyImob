@@ -3,22 +3,28 @@ import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import next from '@next/eslint-plugin-next';
 
-/** @type {import('eslint').Linter.Config[]} */
-const config = [
+export default [
+  // Global ignores
   {
     ignores: [
-      'components/ui/**/*',
+      'components/ui/**',
       'node_modules/**',
       '.next/**',
       'out/**',
       'dist/**',
-      'EasyImob/**/*',
-      '.eslintrc.cjs',
+      'EasyImob/**',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.ts',
     ],
   },
+
+  // Base JavaScript config
   js.configs.recommended,
-  // Configuration for Node.js files
+
+  // Node.js files configuration
   {
     files: ['scripts/**/*.js', 'src/**/*.ts'],
     languageOptions: {
@@ -38,7 +44,8 @@ const config = [
       'no-undef': 'error',
     },
   },
-  // Configuration for TypeScript files
+
+  // TypeScript and React configuration
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -53,12 +60,17 @@ const config = [
       globals: {
         console: 'readonly',
         process: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        React: 'readonly',
+        JSX: 'readonly',
       },
     },
     plugins: {
       '@typescript-eslint': typescript,
       react: react,
       'react-hooks': reactHooks,
+      '@next/next': next,
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -66,8 +78,11 @@ const config = [
       'react/react-in-jsx-scope': 'off',
       'no-undef': 'off', // TypeScript handles this
       'no-unused-vars': 'off', // Use @typescript-eslint/no-unused-vars instead
+      // Next.js specific rules
+      '@next/next/no-html-link-for-pages': 'error',
+      '@next/next/no-img-element': 'warn',
+      '@next/next/no-unwanted-polyfillio': 'error',
+      '@next/next/no-page-custom-font': 'error',
     },
   },
 ];
-
-export default config;
