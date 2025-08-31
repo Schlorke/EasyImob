@@ -68,7 +68,7 @@ analytics.service.ts
 payments.repository.ts
 development-guide.md
 
-````
+\`\`\``
 
 ### 🔧 Convenções TypeScript
 
@@ -280,7 +280,7 @@ describe('Analytics Routes', () => {
 
 ### 1. Análise de Requisitos
 
-```markdown
+\`\`\`markdown
 ## Para implementar nova feature:
 
 1. **Entender o requisito**
@@ -407,7 +407,7 @@ function process(data: PaymentData[]): ProcessedResult {
 
 ### Logs Estruturados
 
-```typescript
+\`\`\`typescript
 // ✅ Logs informativos com contexto
 console.log('📊 Processing analytics data', {
   recordCount: data.length,
@@ -425,7 +425,7 @@ console.error('❌ Error in analytics calculation:', {
 
 ### Performance Monitoring
 
-```typescript
+\`\`\`typescript
 // ✅ Timing para operações críticas
 const startTime = performance.now();
 const result = this.heavyCalculation(data);
@@ -474,4 +474,4 @@ console.log(`⏱️ Calculation completed in ${endTime - startTime}ms`, {
 ---
 
 **🤖 LEMBRETE PARA AGENTES DE IA**: Este projeto segue padrões acadêmicos específicos (HOW VII). Qualquer desvio das regras de programação funcional ou estrutura de camadas pode invalidar o trabalho. Sempre priorize conformidade com os requisitos sobre otimizações prematuras.
-````
+\`\`\``

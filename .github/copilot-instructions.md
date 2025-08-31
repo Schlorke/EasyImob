@@ -125,7 +125,7 @@ function process(data: any): any { }
 
 ### 1. Follow This Pattern
 
-````typescript
+\`\`\``typescript
 // Step 1: Define types in src/types/index.ts
 interface NewAnalyticsResult {
   metric_name: string;
@@ -158,7 +158,7 @@ router.get('/analytics/new-metric', controller.getNewMetric);
 
 ### 2. Always Include Tests
 
-```typescript
+\`\`\`typescript
 describe('calculateNewMetric', () => {
   it('should process data correctly using functional programming', () => {
     const mockData: PaymentData[] = [
@@ -238,7 +238,7 @@ const MAX_PAYMENT_VALUE = 100000;
 
 // Files - kebab-case
 payment-analytics.service.ts
-````
+\`\`\``
 
 ## 🚨 Error Handling Patterns
 
@@ -265,7 +265,7 @@ message: process.env.NODE_ENV === 'development' ? error.message : 'Processing fa
 
 ### When you see functional programming needed:
 
-````typescript
+\`\`\``typescript
 // Instead of suggesting:
 let total = 0;
 for (const payment of payments) {
@@ -278,7 +278,7 @@ const total = payments.reduce((sum, payment) => sum + payment.value, 0);
 
 ### When you see data transformation needed:
 
-```typescript
+\`\`\`typescript
 // Instead of suggesting:
 const result = [];
 for (const payment of payments) {
@@ -287,11 +287,11 @@ for (const payment of payments) {
 
 // Suggest:
 const result = payments.map(payment => ({ ...payment, processed: true }));
-````
+\`\`\``
 
 ### When you see filtering needed:
 
-```typescript
+\`\`\`typescript
 // Instead of suggesting:
 const valid = [];
 for (const payment of payments) {
@@ -302,7 +302,7 @@ for (const payment of payments) {
 
 // Suggest:
 const valid = payments.filter((payment) => payment.value > 0);
-```
+\`\`\`
 
 ## 📝 Documentation Updates
 

@@ -24,7 +24,7 @@
 
 ### 1. Clean Architecture (Hexagonal)
 
-````
+\`\`\``
 ┌─────────────────────────────────────────┐
 │             Controllers                 │ ← HTTP Layer
 ├─────────────────────────────────────────┤
@@ -53,7 +53,7 @@
 
 ### 🌐 Presentation Layer (`src/controllers/`)
 
-```typescript
+\`\`\`typescript
 // Responsabilidade: HTTP Request/Response handling
 export class AnalyticsController {
   async getPaymentsByProperty(req: Request, res: Response): Promise<void> {
@@ -66,7 +66,7 @@ export class AnalyticsController {
 
 ### 🧠 Business Layer (`src/services/`)
 
-```typescript
+\`\`\`typescript
 // Responsabilidade: Pure functional programming
 export class AnalyticsService {
   calculatePaymentsByProperty(data: PaymentData[]): PaymentsByPropertyItem[] {
@@ -82,7 +82,7 @@ export class AnalyticsService {
 
 ### 💾 Data Layer (`src/repositories/`)
 
-```typescript
+\`\`\`typescript
 // Responsabilidade: Single JOIN query, no WHERE/GROUP BY
 export class PaymentsRepository {
   async getAllPaymentsData(): Promise<PaymentData[]> {
@@ -132,7 +132,7 @@ graph TD
 
 ### 2. Factory Pattern
 
-```typescript
+\`\`\`typescript
 export const createAnalyticsController = (
   repository: PaymentsRepository,
   service: AnalyticsService
@@ -143,7 +143,7 @@ export const createAnalyticsController = (
 
 ### 3. Functional Programming
 
-```typescript
+\`\`\`typescript
 // Pure functions - sem side effects
 const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
   Object.entries(countByType)
@@ -205,7 +205,7 @@ const calculatePercentages = (data: PaymentData[]): SalesShareByTypeItem[] =>
 
 ### Novos Analytics
 
-```typescript
+\`\`\`typescript
 // 1. Adicionar método no AnalyticsService
 calculateNewMetric(data: PaymentData[]): NewMetricItem[] {
   return data
@@ -227,7 +227,7 @@ router.get('/analytics/new-metric', controller.getNewMetric);
 
 ### Novos Dados
 
-```typescript
+\`\`\`typescript
 // 1. Estender PaymentData interface
 export interface ExtendedPaymentData extends PaymentData {
   novo_campo: string;
@@ -265,4 +265,4 @@ const query = `
 - **Dependency Injection**: SOLID Principles
 - **RESTful APIs**: Roy Fielding
 - **TypeScript Best Practices**: Microsoft Documentation
-````
+\`\`\``
